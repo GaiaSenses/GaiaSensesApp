@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6"
+  },
+  "include": ["*.js", "../../../node_modules/@types/p5/global.d.ts"],
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
