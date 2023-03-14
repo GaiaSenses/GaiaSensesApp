@@ -4,14 +4,21 @@
 
 import { NativeModules } from 'react-native';
 
-const { PureDataModule } = NativeModules;
+export type AudioOptions = {
+  sampleRate: number;
+  inChannels: number;
+  outChannels: number;
+};
 
-interface PureData {
+export interface IPureDataModule {
   loadPatch(source: string): Promise<number>;
-  startAudio(sampleRate: number, inChannels: number, outChannels: number): void;
+  startAudio(options: AudioOptions): void;
   stopAudio(): void;
   destroyAudio(): void;
   send(symbol: string, value: number): void;
 }
 
-export default PureDataModule as PureData;
+const { PureDataModule } = NativeModules;
+const PureData = PureDataModule as IPureDataModule;
+
+export default PureData;

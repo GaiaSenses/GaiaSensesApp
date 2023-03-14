@@ -8,15 +8,12 @@ import { Style } from '../../style';
 import Lluvia from '../../compositions/Lluvia';
 
 export default function Create(): JSX.Element {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [play, setPlay] = useState(false);
 
   return (
     <View style={Style.container}>
-      <Lluvia play={isPlaying} />
-      <Button
-        title={isPlaying ? 'Stop' : 'Play'}
-        onPress={() => setIsPlaying(!isPlaying)}
-      />
+      <Lluvia play={play} />
+      <Button title={play ? 'Stop' : 'Play'} onPress={() => setPlay(!play)} />
     </View>
   );
 }

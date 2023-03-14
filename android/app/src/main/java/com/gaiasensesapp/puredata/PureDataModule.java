@@ -14,6 +14,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 
 import org.puredata.android.service.PdService;
 import org.puredata.core.PdBase;
@@ -113,14 +114,17 @@ public class PureDataModule extends ReactContextBaseJavaModule implements Lifecy
     }
 
     @ReactMethod
-    public void startAudio(int sampleRate, int inputChannels, int outputChannels) {
+    public void startAudio(ReadableMap options) {
         if (pdService == null)
             return;
 
+        int sampleRate = options.getInt("sampleRate");
+        int inChannels = options.getInt("inChannels");
+        int outChannels = options.getInt("outChannels");
+
         ReactApplicationContext context = getReactApplicationContext();
         try {
-            //if (!pdService.isRunning())
-            pdService.initAudio(sampleRate, inputChannels, outputChannels, -1);
+            pdService.initAudio(sampleRate, inChannels, outChannels, -1);
             pdService.startAudio();
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
