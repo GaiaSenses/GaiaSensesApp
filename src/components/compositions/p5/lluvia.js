@@ -11,5 +11,5 @@ function setup() {
 function draw() {
   fill(random(255), random(255), random(255), random(255));
   noStroke();
-  ellipse(random(w), random(h), random(250), random(250));
+  ellipse(random(w), random(h), random(100), random(100));
 }

@@ -2,49 +2,40 @@
  * @format
  */
 
-import {
-  DarkTheme as _DarkTheme,
-  DefaultTheme,
-  Theme,
-} from '@react-navigation/native';
+import { Theme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-const Colors = {
-  white: '#ffffff',
-  black: '#080808',
-  darkGray: '#0f0f0f',
-  darkBlue: '#14073a',
-  lightBlue: '#f1f4f6',
-  blue: '#478ea5',
-  lightGreen: '#f0fff0',
-};
-
-const DarkTheme: Theme = {
+export const DarkTheme: Theme = {
   dark: true,
   colors: {
-    ..._DarkTheme.colors,
-    primary: Colors.blue,
-    background: Colors.black,
-    card: Colors.darkGray,
+    primary: '#478ea5',
+    background: '#1a1a1a',
+    card: '#1f1f1f',
+    text: '#f0f0f0',
+    border: '#303030',
+    notification: '#eababa',
   },
 };
 
-const LightTheme: Theme = {
+export const LightTheme: Theme = {
   dark: false,
   colors: {
-    ...DefaultTheme.colors,
-    primary: Colors.blue,
-    background: Colors.lightBlue,
+    primary: '#478ea5',
+    background: '#ffffff',
+    card: '#f1f4f6',
+    text: '#0a0a0a',
+    border: '#a0a0a0',
+    notification: '#eababa',
   },
 };
 
-const Style = StyleSheet.create({
-  container: {
+export const BaseStyle = StyleSheet.create({
+  centered: {
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  compositionContainer: {
+  composition: {
     flex: 0,
     width: '90%',
     height: '80%',
@@ -52,6 +43,39 @@ const Style = StyleSheet.create({
   webview: {
     borderRadius: 10,
   },
+  modal: {
+    flex: 1,
+    elevation: 5,
+    marginTop: 100,
+    padding: 20,
+    shadowColor: '#000',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    backgroundColor: '#fff',
+  },
+  thumbnail: {
+    width: 150,
+    height: 150,
+    borderRadius: 10,
+    margin: 10,
+  },
+  title: {
+    fontSize: 32,
+  },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.5)',
+  },
 });
 
-export { Style, Colors, DarkTheme, LightTheme };
+export function createStyle<
+  T extends StyleSheet.NamedStyles<T> | StyleSheet.NamedStyles<any>,
+>(overrides: T) {
+  return StyleSheet.create({ ...BaseStyle, ...overrides });
+}

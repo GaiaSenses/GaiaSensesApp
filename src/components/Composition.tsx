@@ -6,13 +6,14 @@ import raw from 'raw.macro';
 import React from 'react';
 import { View } from 'react-native';
 import WebView from 'react-native-webview';
-import { Style } from '../style';
+import { createStyle } from '../style';
 
 const getWebviewHTML = (sketch: string) => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1" />
   <style>
     * {
       margin: 0;
@@ -31,7 +32,7 @@ const getWebviewHTML = (sketch: string) => `
 
 export default function Composition(props: { sketch: string }): JSX.Element {
   return (
-    <View style={Style.compositionContainer}>
+    <View style={style.composition}>
       <WebView
         originWhitelist={['*']}
         source={{ html: getWebviewHTML(props.sketch) }}
@@ -41,8 +42,10 @@ export default function Composition(props: { sketch: string }): JSX.Element {
         overScrollMode="never"
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        containerStyle={Style.webview}
+        containerStyle={style.webview}
       />
     </View>
   );
 }
+
+const style = createStyle({});
