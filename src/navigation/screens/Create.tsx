@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 import { Style } from '../../style';
-import Lluvia from '../../compositions/Lluvia';
+import Lluvia from '../../components/compositions/Lluvia';
 
 export default function Create(): JSX.Element {
   const [play, setPlay] = useState(false);
