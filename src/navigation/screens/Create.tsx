@@ -3,19 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  Button,
-  FlatList,
-  Image,
-  ImageSourcePropType,
-  Modal,
-  Pressable,
-  Text,
-  View,
-} from 'react-native';
-import { createStyle } from '../../style';
-import { useTheme } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import {
   CompositionNames,
   ChaosTree,
@@ -25,95 +13,37 @@ import {
   WeatherTree,
   ZigZag,
 } from '../../components/compositions';
+import Thumbnail from '../../components/Thumbnail';
+import AnimatedModal from '../../components/AnimatedModal';
+import { Containers } from '../../styles/containers';
+import { Spacing, Typography } from '../../styles';
 
-type ThumbnailProps = {
-  id: CompositionNames;
-  source: ImageSourcePropType;
-  onSelect: (name: CompositionNames) => void;
-};
-
-type CompositionModalProps = {
-  onSelect: (name: CompositionNames) => void;
-  onQuit: () => void;
-};
-
-type HeaderProps = {
-  title: string;
-  onQuit: () => void;
-};
-
-function Thumbnail({ id, source, onSelect }: ThumbnailProps): JSX.Element {
-  return (
-    <Pressable onPress={() => onSelect(id)}>
-      <Image source={source} style={style.thumbnail} />
-    </Pressable>
-  );
-}
-
-function Header({ title, onQuit }: HeaderProps): JSX.Element {
-  return (
-    <View style={style.header}>
-      <Text style={style.title}>{title}</Text>
-      <Icon name="close" size={style.title.fontSize} onPress={() => onQuit()} />
-    </View>
-  );
-}
-
-function SelectCompositionModal({
-  onSelect,
-  onQuit,
-}: CompositionModalProps): JSX.Element {
-  const theme = useTheme();
-  style.modal.backgroundColor = theme.colors.card;
-
-  const thumbnails = [
-    {
-      id: CompositionNames.CHAOS_TREE,
-      source: require('../../assets/chaos-tree.png'),
-    },
-    {
-      id: CompositionNames.CURVES,
-      source: require('../../assets/curves.png'),
-    },
-    {
-      id: CompositionNames.LLUVIA,
-      source: require('../../assets/lluvia.png'),
-    },
-    {
-      id: CompositionNames.RECTANGLES,
-      source: require('../../assets/rectangles.png'),
-    },
-    {
-      id: CompositionNames.WEATHER_TREE,
-      source: require('../../assets/weather-tree.png'),
-    },
-    {
-      id: CompositionNames.ZIG_ZAG,
-      source: require('../../assets/zig-zag.png'),
-    },
-  ];
-
-  return (
-    <Modal visible={true} transparent animationType="slide">
-      <View style={style.overlay}>
-        <View style={[style.centered, style.modal]}>
-          <Header title="Art Type" onQuit={onQuit} />
-          <FlatList
-            data={thumbnails}
-            renderItem={({ item }) => (
-              <Thumbnail
-                id={item.id}
-                source={item.source}
-                onSelect={onSelect}
-              />
-            )}
-            numColumns={2}
-          />
-        </View>
-      </View>
-    </Modal>
-  );
-}
+const thumbnails = [
+  {
+    id: CompositionNames.CHAOS_TREE,
+    source: require('../../assets/chaos-tree.png'),
+  },
+  {
+    id: CompositionNames.CURVES,
+    source: require('../../assets/curves.png'),
+  },
+  {
+    id: CompositionNames.LLUVIA,
+    source: require('../../assets/lluvia.png'),
+  },
+  {
+    id: CompositionNames.RECTANGLES,
+    source: require('../../assets/rectangles.png'),
+  },
+  {
+    id: CompositionNames.WEATHER_TREE,
+    source: require('../../assets/weather-tree.png'),
+  },
+  {
+    id: CompositionNames.ZIG_ZAG,
+    source: require('../../assets/zig-zag.png'),
+  },
+];
 
 export default function Create(): JSX.Element {
   const [play, setPlay] = useState(false);
@@ -143,10 +73,25 @@ export default function Create(): JSX.Element {
   };
 
   return (
-    <View style={style.centered}>
-      <Button title="modal" onPress={() => setModalVisible(true)} />
+    <View style={style.container}>
+      <View style={style.header}>
+        <Text style={style.headerText}>Select art:</Text>
+        <Button title={composition} onPress={() => setModalVisible(true)} />
+      </View>
       {modalVisible && (
-        <SelectCompositionModal onSelect={handleSelect} onQuit={handleQuit} />
+        <AnimatedModal onQuit={handleQuit}>
+          <FlatList
+            data={thumbnails}
+            renderItem={({ item }) => (
+              <Thumbnail
+                id={item.id}
+                source={item.source}
+                onSelect={handleSelect}
+              />
+            )}
+            numColumns={2}
+          />
+        </AnimatedModal>
       )}
       {renderComposition()}
       <Button title={play ? 'Stop' : 'Play'} onPress={() => setPlay(!play)} />
@@ -154,4 +99,17 @@ export default function Create(): JSX.Element {
   );
 }
 
-const style = createStyle({});
+const style = StyleSheet.create({
+  container: {
+    ...Containers.vcentered,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '90%',
+  },
+  headerText: {
+    ...Typography.default,
+    padding: Spacing.small,
+  },
+});

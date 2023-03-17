@@ -4,9 +4,9 @@
 
 import raw from 'raw.macro';
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import WebView from 'react-native-webview';
-import { createStyle } from '../style';
+import { Containers } from '../styles';
 
 const getWebviewHTML = (sketch: string) => `
 <!DOCTYPE html>
@@ -32,7 +32,7 @@ const getWebviewHTML = (sketch: string) => `
 
 export default function Composition(props: { sketch: string }): JSX.Element {
   return (
-    <View style={style.composition}>
+    <View style={style.container}>
       <WebView
         originWhitelist={['*']}
         source={{ html: getWebviewHTML(props.sketch) }}
@@ -48,4 +48,13 @@ export default function Composition(props: { sketch: string }): JSX.Element {
   );
 }
 
-const style = createStyle({});
+const style = StyleSheet.create({
+  container: {
+    flex: 0,
+    width: '90%',
+    height: '80%',
+  },
+  webview: {
+    ...Containers.rounded,
+  },
+});

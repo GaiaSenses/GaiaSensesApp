@@ -4,24 +4,32 @@
 
 import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, Theme } from '@react-navigation/native';
 
 import AppNavigator from './src/navigation/navigators/AppNavigator';
-import { DarkTheme, LightTheme } from './src/style';
+import { Colors } from './src/styles';
 
-function App(): JSX.Element {
+export default function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';
+  const theme: Theme = {
+    dark: isDark,
+    colors: {
+      primary: Colors.primary,
+      background: isDark ? Colors.dark.background : Colors.light.background,
+      card: isDark ? Colors.dark.surface : Colors.light.surface,
+      text: isDark ? Colors.dark.text : Colors.light.text,
+      border: isDark ? Colors.dark.border : Colors.light.border,
+      notification: Colors.secondary,
+    },
+  };
+
   return (
-    <NavigationContainer theme={isDark ? DarkTheme : LightTheme}>
+    <NavigationContainer theme={theme}>
       <StatusBar
         barStyle={isDark ? 'light-content' : 'dark-content'}
-        backgroundColor={
-          isDark ? DarkTheme.colors.card : LightTheme.colors.card
-        }
+        backgroundColor={isDark ? theme.colors.card : theme.colors.card}
       />
       <AppNavigator />
     </NavigationContainer>
   );
 }
-
-export default App;
