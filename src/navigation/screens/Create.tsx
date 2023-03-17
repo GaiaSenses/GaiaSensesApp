@@ -14,23 +14,26 @@ import {
   View,
 } from 'react-native';
 import { createStyle } from '../../style';
-import Lluvia from '../../components/compositions/Lluvia';
 import { useTheme } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ChaosTree from '../../components/compositions/ChaosTree';
-import Curves from '../../components/compositions/Curves';
-import Rectangles from '../../components/compositions/Rectangles';
-import WeatherTree from '../../components/compositions/WeatherTree';
-import ZigZag from '../../components/compositions/ZigZag';
+import {
+  CompositionNames,
+  ChaosTree,
+  Rectangles,
+  Curves,
+  Lluvia,
+  WeatherTree,
+  ZigZag,
+} from '../../components/compositions';
 
 type ThumbnailProps = {
-  id: string;
+  id: CompositionNames;
   source: ImageSourcePropType;
-  onSelect: (name: string) => void;
+  onSelect: (name: CompositionNames) => void;
 };
 
 type CompositionModalProps = {
-  onSelect: (name: string) => void;
+  onSelect: (name: CompositionNames) => void;
   onQuit: () => void;
 };
 
@@ -64,12 +67,30 @@ function SelectCompositionModal({
   style.modal.backgroundColor = theme.colors.card;
 
   const thumbnails = [
-    { id: 'chaos-tree', source: require('../../assets/chaos-tree.png') },
-    { id: 'curves', source: require('../../assets/curves.png') },
-    { id: 'lluvia', source: require('../../assets/lluvia.png') },
-    { id: 'rectangles', source: require('../../assets/rectangles.png') },
-    { id: 'weather-tree', source: require('../../assets/weather-tree.png') },
-    { id: 'zig-zag', source: require('../../assets/zig-zag.png') },
+    {
+      id: CompositionNames.CHAOS_TREE,
+      source: require('../../assets/chaos-tree.png'),
+    },
+    {
+      id: CompositionNames.CURVES,
+      source: require('../../assets/curves.png'),
+    },
+    {
+      id: CompositionNames.LLUVIA,
+      source: require('../../assets/lluvia.png'),
+    },
+    {
+      id: CompositionNames.RECTANGLES,
+      source: require('../../assets/rectangles.png'),
+    },
+    {
+      id: CompositionNames.WEATHER_TREE,
+      source: require('../../assets/weather-tree.png'),
+    },
+    {
+      id: CompositionNames.ZIG_ZAG,
+      source: require('../../assets/zig-zag.png'),
+    },
   ];
 
   return (
@@ -97,22 +118,22 @@ function SelectCompositionModal({
 export default function Create(): JSX.Element {
   const [play, setPlay] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [composition, setComposition] = useState('lluvia');
+  const [composition, setComposition] = useState(CompositionNames.LLUVIA);
 
   const renderComposition = () => {
     const map: Record<string, JSX.Element> = {
-      ['chaos-tree']: <ChaosTree />,
-      ['curves']: <Curves />,
-      ['lluvia']: <Lluvia play={play} />,
-      ['rectangles']: <Rectangles />,
-      ['weather-tree']: <WeatherTree />,
-      ['zig-zag']: <ZigZag />,
+      [CompositionNames.CHAOS_TREE]: <ChaosTree />,
+      [CompositionNames.CURVES]: <Curves />,
+      [CompositionNames.LLUVIA]: <Lluvia play={play} />,
+      [CompositionNames.RECTANGLES]: <Rectangles />,
+      [CompositionNames.WEATHER_TREE]: <WeatherTree />,
+      [CompositionNames.ZIG_ZAG]: <ZigZag />,
     };
 
     return map[composition];
   };
 
-  const handleSelect = (name: string) => {
+  const handleSelect = (name: CompositionNames) => {
     setComposition(name);
     setModalVisible(false);
   };

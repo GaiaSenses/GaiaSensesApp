@@ -7,7 +7,7 @@ import Composition from '../Composition';
 import raw from 'raw.macro';
 import usePatch from '../../hooks/usePatch';
 
-export default function Lluvia({ play }: { play: boolean }): JSX.Element {
+export function Lluvia({ play }: { play: boolean }): JSX.Element {
   const { patch, loaded } = usePatch(raw('./pd/lluvia.pd'));
 
   useEffect(() => {
