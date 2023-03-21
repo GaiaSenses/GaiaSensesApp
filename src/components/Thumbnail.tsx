@@ -5,8 +5,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Image, ImageSourcePropType } from 'react-native';
-import { TouchableRipple } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { IconButton, TouchableRipple } from 'react-native-paper';
 import { Spacing } from '../styles';
 import { Containers } from '../styles/containers';
 import { CompositionNames } from './compositions';
@@ -29,7 +28,14 @@ export default function Thumbnail({
   return (
     <TouchableRipple onPress={() => handleSelect(id)}>
       <>
-        {selected && <Icon name="check" size={24} style={style.icon} />}
+        {selected && (
+          <IconButton
+            icon="check"
+            mode="contained"
+            style={style.icon}
+            selected
+          />
+        )}
         <Image
           source={source}
           style={selected ? [style.container, style.selected] : style.container}
@@ -51,8 +57,8 @@ const style = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    top: 10,
-    right: 10,
+    top: 0,
+    right: 0,
     zIndex: 2,
   },
 });
