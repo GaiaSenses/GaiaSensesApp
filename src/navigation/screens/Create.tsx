@@ -19,33 +19,6 @@ import { Button, IconButton } from 'react-native-paper';
 import AppHeader from '../../components/AppHeader';
 import SelectCompositionDialog from '../../components/SelectCompositionDialog';
 
-const thumbnails = [
-  {
-    id: CompositionNames.CHAOS_TREE,
-    source: require('../../assets/chaos-tree.png'),
-  },
-  {
-    id: CompositionNames.CURVES,
-    source: require('../../assets/curves.png'),
-  },
-  {
-    id: CompositionNames.LLUVIA,
-    source: require('../../assets/lluvia.png'),
-  },
-  {
-    id: CompositionNames.RECTANGLES,
-    source: require('../../assets/rectangles.png'),
-  },
-  {
-    id: CompositionNames.WEATHER_TREE,
-    source: require('../../assets/weather-tree.png'),
-  },
-  {
-    id: CompositionNames.ZIG_ZAG,
-    source: require('../../assets/zig-zag.png'),
-  },
-];
-
 export default function Create(): JSX.Element {
   const [play, setPlay] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -81,7 +54,6 @@ export default function Create(): JSX.Element {
           title="Select Art"
           visible={modalVisible}
           current={composition}
-          data={thumbnails}
           onDismiss={handleDismiss}
           onSelect={handleSelect}
         />

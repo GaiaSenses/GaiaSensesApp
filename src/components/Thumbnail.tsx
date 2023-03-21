@@ -3,61 +3,34 @@
  */
 
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { ImageStyle, StyleSheet } from 'react-native';
 import { Image, ImageSourcePropType } from 'react-native';
-import { IconButton, TouchableRipple } from 'react-native-paper';
 import { Spacing } from '../styles';
 import { Containers } from '../styles/containers';
-import { CompositionNames } from './compositions';
 
 type ThumbnailProps = {
-  id: CompositionNames;
   source: ImageSourcePropType;
-  selected?: boolean;
-  onSelect?: (name: CompositionNames) => void;
+  size?: number;
+  style?: ImageStyle;
 };
 
 export default function Thumbnail({
-  id,
   source,
-  selected,
-  onSelect,
+  size,
+  style,
 }: ThumbnailProps): JSX.Element {
-  const handleSelect = onSelect || (() => {});
+  if (size) {
+    styles.container.height = size;
+    styles.container.width = size;
+  }
 
-  return (
-    <TouchableRipple onPress={() => handleSelect(id)}>
-      <>
-        {selected && (
-          <IconButton
-            icon="check"
-            mode="contained"
-            style={style.icon}
-            selected
-          />
-        )}
-        <Image
-          source={source}
-          style={selected ? [style.container, style.selected] : style.container}
-        />
-      </>
-    </TouchableRipple>
-  );
+  return <Image source={source} style={[styles.container, style]} />;
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     ...Containers.card,
     ...Containers.rounded,
     margin: Spacing.small,
-  },
-  selected: {
-    backgroundColor: '#000',
-    opacity: 0.5,
-  },
-  icon: {
-    ...Containers.overlayed,
-    top: 0,
-    right: 0,
   },
 });

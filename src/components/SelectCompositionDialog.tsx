@@ -3,8 +3,15 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-import { Button, Dialog, Portal } from 'react-native-paper';
+import { FlatList, ImageSourcePropType, StyleSheet } from 'react-native';
+import {
+  Button,
+  Dialog,
+  IconButton,
+  Portal,
+  TouchableRipple,
+} from 'react-native-paper';
+import { Containers } from '../styles';
 import { CompositionNames } from './compositions';
 import Thumbnail from './Thumbnail';
 
@@ -12,10 +19,76 @@ type SelectCompositionDialogProps = {
   title: string;
   visible: boolean;
   current: CompositionNames;
-  data: ArrayLike<any>;
   onDismiss: () => void;
   onSelect: (name: CompositionNames) => void;
 };
+
+type ItemInfo = {
+  id: number;
+  name: CompositionNames;
+  source: ImageSourcePropType;
+};
+
+type ItemProps = {
+  item: ItemInfo;
+  selected: boolean;
+  onSelect: (name: CompositionNames) => void;
+};
+
+const thumbnails: ItemInfo[] = [
+  {
+    id: 0,
+    name: CompositionNames.CHAOS_TREE,
+    source: require('../assets/chaos-tree.png'),
+  },
+  {
+    id: 1,
+    name: CompositionNames.CURVES,
+    source: require('../assets/curves.png'),
+  },
+  {
+    id: 2,
+    name: CompositionNames.LLUVIA,
+    source: require('../assets/lluvia.png'),
+  },
+  {
+    id: 3,
+    name: CompositionNames.RECTANGLES,
+    source: require('../assets/rectangles.png'),
+  },
+  {
+    id: 4,
+    name: CompositionNames.WEATHER_TREE,
+    source: require('../assets/weather-tree.png'),
+  },
+  {
+    id: 5,
+    name: CompositionNames.ZIG_ZAG,
+    source: require('../assets/zig-zag.png'),
+  },
+];
+
+function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
+  return (
+    <TouchableRipple onPress={() => onSelect(item.name)}>
+      <>
+        {selected && (
+          <IconButton
+            icon="check"
+            mode="contained"
+            style={style.icon}
+            selected
+          />
+        )}
+        <Thumbnail
+          source={item.source}
+          size={150}
+          style={selected ? style.selected : undefined}
+        />
+      </>
+    </TouchableRipple>
+  );
+}
 
 export default function SelectCompositionDialog(
   props: SelectCompositionDialogProps,
@@ -37,12 +110,11 @@ export default function SelectCompositionDialog(
         <Dialog.Title>{props.title}</Dialog.Title>
         <Dialog.ScrollArea>
           <FlatList
-            data={props.data}
+            data={thumbnails}
             renderItem={({ item }) => (
-              <Thumbnail
-                id={item.id}
-                source={item.source}
-                selected={selected === item.id}
+              <Item
+                item={item}
+                selected={selected === item.name}
                 onSelect={handleSelect}
               />
             )}
@@ -62,5 +134,13 @@ export default function SelectCompositionDialog(
 const style = StyleSheet.create({
   flatlist: {
     alignItems: 'center',
+  },
+  icon: {
+    ...Containers.overlayed,
+    top: 0,
+    right: 0,
+  },
+  selected: {
+    opacity: 0.5,
   },
 });

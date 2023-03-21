@@ -2,9 +2,101 @@
  * @format
  */
 
-import React from 'react';
-import { Text } from 'react-native-paper';
+import React, { useState } from 'react';
+import { FlatList, ImageSourcePropType, StyleSheet, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
+import AppHeader from '../../components/AppHeader';
+import { CompositionNames } from '../../components/compositions';
+import Thumbnail from '../../components/Thumbnail';
+import { Containers } from '../../styles';
+
+type ItemInfo = {
+  id: number;
+  name: CompositionNames;
+  source: ImageSourcePropType;
+  like: boolean;
+};
+
+type ItemProps = {
+  item: ItemInfo;
+  onPress: () => void;
+};
+
+const thumbnails: ItemInfo[] = [
+  {
+    id: 0,
+    name: CompositionNames.CHAOS_TREE,
+    source: require('../../assets/chaos-tree.png'),
+    like: true,
+  },
+  {
+    id: 1,
+    name: CompositionNames.CURVES,
+    source: require('../../assets/curves.png'),
+    like: false,
+  },
+  {
+    id: 2,
+    name: CompositionNames.LLUVIA,
+    source: require('../../assets/lluvia.png'),
+    like: true,
+  },
+];
+
+function Item({ item, onPress }: ItemProps): JSX.Element {
+  return (
+    <View>
+      <IconButton
+        icon={item.like ? 'heart' : 'heart-outline'}
+        mode="contained"
+        onPress={() => onPress()}
+        style={style.icon}
+      />
+      <Thumbnail source={item.source} size={180} />
+    </View>
+  );
+}
 
 export default function Discover(): JSX.Element {
-  return <Text variant="titleMedium">Discover</Text>;
+  const [posts, setPosts] = useState(thumbnails);
+
+  const handlePress = (item: ItemInfo) => {
+    setPosts(
+      posts.map((post) =>
+        post.id === item.id ? { ...post, like: !post.like } : post,
+      ),
+    );
+  };
+
+  return (
+    <>
+      <AppHeader title="Discover" />
+
+      <View style={style.container}>
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => (
+            <Item item={item} onPress={() => handlePress(item)} />
+          )}
+          contentContainerStyle={style.flatlist}
+          numColumns={2}
+        />
+      </View>
+    </>
+  );
 }
+
+const style = StyleSheet.create({
+  container: {
+    ...Containers.vcentered,
+  },
+  flatlist: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  icon: {
+    ...Containers.overlayed,
+    top: 0,
+    right: 0,
+  },
+});
