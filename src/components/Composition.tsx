@@ -51,8 +51,8 @@ export default function Composition(props: { sketch: string }): JSX.Element {
 const style = StyleSheet.create({
   container: {
     flex: 0,
-    width: '90%',
-    height: '80%',
+    width: '100%',
+    height: '100%',
   },
   webview: {
     ...Containers.rounded,

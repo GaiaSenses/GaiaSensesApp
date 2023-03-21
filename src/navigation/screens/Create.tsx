@@ -15,7 +15,7 @@ import {
 } from '../../components/compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
-import { Button } from 'react-native-paper';
+import { Button, IconButton } from 'react-native-paper';
 import AppHeader from '../../components/AppHeader';
 import SelectCompositionDialog from '../../components/SelectCompositionDialog';
 
@@ -95,13 +95,16 @@ export default function Create(): JSX.Element {
           onSelect={handleSelect}
         />
 
-        {renderComposition()}
-
-        <Button
-          icon={play ? 'volume-high' : 'volume-off'}
-          onPress={() => setPlay(!play)}>
-          {play ? 'Stop' : 'Play'}
-        </Button>
+        <View style={style.compositionContainer}>
+          <IconButton
+            icon={play ? 'volume-high' : 'volume-off'}
+            mode="contained"
+            selected={play}
+            onPress={() => setPlay(!play)}
+            style={style.soundIcon}
+          />
+          {renderComposition()}
+        </View>
       </View>
     </>
   );
@@ -119,5 +122,15 @@ const style = StyleSheet.create({
   headerText: {
     ...Typography.default,
     padding: Spacing.small,
+  },
+  compositionContainer: {
+    flex: 0,
+    width: '90%',
+    height: '90%',
+  },
+  soundIcon: {
+    ...Containers.overlayed,
+    top: 0,
+    right: 0,
   },
 });

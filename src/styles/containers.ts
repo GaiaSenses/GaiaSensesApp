@@ -27,4 +27,8 @@ export const Containers = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  overlayed: {
+    position: 'absolute',
+    zIndex: 2,
+  },
 });

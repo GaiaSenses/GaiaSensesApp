@@ -56,9 +56,8 @@ const style = StyleSheet.create({
     opacity: 0.5,
   },
   icon: {
-    position: 'absolute',
+    ...Containers.overlayed,
     top: 0,
     right: 0,
-    zIndex: 2,
   },
 });
