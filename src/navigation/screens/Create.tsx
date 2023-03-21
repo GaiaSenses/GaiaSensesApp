@@ -77,15 +77,6 @@ export default function Create(): JSX.Element {
     <>
       <AppHeader title="Create" />
       <View style={style.container}>
-        <View style={style.header}>
-          <Button
-            mode="outlined"
-            icon="palette"
-            onPress={() => setModalVisible(true)}>
-            {composition}
-          </Button>
-        </View>
-
         <SelectCompositionDialog
           title="Select Art"
           visible={modalVisible}
@@ -105,6 +96,18 @@ export default function Create(): JSX.Element {
           />
           {renderComposition()}
         </View>
+
+        <View style={style.buttonRow}>
+          <Button
+            mode="outlined"
+            icon="palette"
+            onPress={() => setModalVisible(true)}>
+            {composition}
+          </Button>
+          <Button mode="contained" onPress={() => console.log('saved')}>
+            Save
+          </Button>
+        </View>
       </View>
     </>
   );
@@ -114,9 +117,10 @@ const style = StyleSheet.create({
   container: {
     ...Containers.vcentered,
   },
-  header: {
+  buttonRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-around',
     width: '90%',
   },
   headerText: {
