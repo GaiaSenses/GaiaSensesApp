@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   CompositionNames,
   ChaosTree,
@@ -13,10 +13,11 @@ import {
   WeatherTree,
   ZigZag,
 } from '../../components/compositions';
-import Thumbnail from '../../components/Thumbnail';
-import AnimatedModal from '../../components/AnimatedModal';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
+import { Button } from 'react-native-paper';
+import AppHeader from '../../components/AppHeader';
+import SelectCompositionDialog from '../../components/SelectCompositionDialog';
 
 const thumbnails = [
   {
@@ -68,34 +69,41 @@ export default function Create(): JSX.Element {
     setModalVisible(false);
   };
 
-  const handleQuit = () => {
+  const handleDismiss = () => {
     setModalVisible(false);
   };
 
   return (
-    <View style={style.container}>
-      <View style={style.header}>
-        <Text style={style.headerText}>Select art:</Text>
-        <Button title={composition} onPress={() => setModalVisible(true)} />
+    <>
+      <AppHeader title="Create" />
+      <View style={style.container}>
+        <View style={style.header}>
+          <Button
+            mode="outlined"
+            icon="palette"
+            onPress={() => setModalVisible(true)}>
+            {composition}
+          </Button>
+        </View>
+
+        <SelectCompositionDialog
+          title="Select Art"
+          visible={modalVisible}
+          current={composition}
+          data={thumbnails}
+          onDismiss={handleDismiss}
+          onSelect={handleSelect}
+        />
+
+        {renderComposition()}
+
+        <Button
+          icon={play ? 'volume-high' : 'volume-off'}
+          onPress={() => setPlay(!play)}>
+          {play ? 'Stop' : 'Play'}
+        </Button>
       </View>
-      {modalVisible && (
-        <AnimatedModal onQuit={handleQuit}>
-          <FlatList
-            data={thumbnails}
-            renderItem={({ item }) => (
-              <Thumbnail
-                id={item.id}
-                source={item.source}
-                onSelect={handleSelect}
-              />
-            )}
-            numColumns={2}
-          />
-        </AnimatedModal>
-      )}
-      {renderComposition()}
-      <Button title={play ? 'Stop' : 'Play'} onPress={() => setPlay(!play)} />
-    </View>
+    </>
   );
 }
 

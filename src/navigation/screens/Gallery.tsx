@@ -3,8 +3,8 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
+import { Text } from 'react-native-paper';
 
 export default function Gallery(): JSX.Element {
-  return <Text>Gallery</Text>;
+  return <Text variant="titleMedium">Gallery</Text>;
 }
