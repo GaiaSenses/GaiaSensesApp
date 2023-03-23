@@ -6,6 +6,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useRef, useState } from 'react';
 import PureData, { AudioOptions } from '../../modules/PureData';
 
+export type Patch = {
+  id: number;
+  start: (options?: Partial<AudioOptions>) => void;
+  stop: () => void;
+  send: (sym: string, val: number) => void;
+};
+
 export default function usePatch(source: string) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(null);
@@ -24,7 +31,9 @@ export default function usePatch(source: string) {
         }
       };
 
-      loadPatch();
+      if (source) {
+        loadPatch();
+      }
 
       return () => {
         console.log('destroy');
@@ -50,7 +59,7 @@ export default function usePatch(source: string) {
     PureData.send(sym, val);
   };
 
-  const patch = { id: patchId.current, start, stop, send };
+  const patch = { id: patchId.current, start, stop, send } as Patch;
 
   return { patch, loaded, error };
 }

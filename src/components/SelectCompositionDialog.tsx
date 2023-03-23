@@ -12,7 +12,7 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import { Containers } from '../styles';
-import { CompositionNames } from './compositions';
+import { CompositionNames } from '../compositions';
 import Thumbnail from './Thumbnail';
 
 type SelectCompositionDialogProps = {

@@ -3,37 +3,39 @@
  */
 
 import React from 'react';
-
-import Create from '../screens/Create';
-import Discover from '../screens/Discover';
-import Gallery from '../screens/Gallery';
 import {
   createMaterialBottomTabNavigator,
   MaterialBottomTabNavigationOptions,
 } from '@react-navigation/material-bottom-tabs';
+import CreateNavigator from './CreateNavigator';
+import DiscoverNavigator from './DiscoverNavigator';
+import GalleryNavigator from './GalleryNavigator';
 
 const Tab = createMaterialBottomTabNavigator();
 
 const screens = [
   {
-    name: 'Discover',
-    component: Discover,
+    name: 'DiscoverTab',
+    component: DiscoverNavigator,
     options: {
       tabBarIcon: 'card-search',
+      tabBarLabel: 'Discover',
     } as MaterialBottomTabNavigationOptions,
   },
   {
-    name: 'Create',
-    component: Create,
+    name: 'CreateTab',
+    component: CreateNavigator,
     options: {
       tabBarIcon: 'plus',
+      tabBarLabel: 'Create',
     } as MaterialBottomTabNavigationOptions,
   },
   {
-    name: 'Gallery',
-    component: Gallery,
+    name: 'GalleryTab',
+    component: GalleryNavigator,
     options: {
       tabBarIcon: 'account',
+      tabBarLabel: 'Gallery',
     } as MaterialBottomTabNavigationOptions,
   },
 ];

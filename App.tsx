@@ -2,12 +2,13 @@
  * @format
  */
 
+import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
 import { NavigationContainer, Theme } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import AppNavigator from './src/navigation/navigators/AppNavigator';
+import AppNavigator from './src/navigation/AppNavigator';
 import { Colors } from './src/styles';
 
 export default function App(): JSX.Element {

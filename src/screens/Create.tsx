@@ -2,40 +2,26 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import {
-  CompositionNames,
-  ChaosTree,
-  Rectangles,
-  Curves,
-  Lluvia,
-  WeatherTree,
-  ZigZag,
-} from '../../components/compositions';
-import { Containers } from '../../styles/containers';
-import { Spacing, Typography } from '../../styles';
+import { CompositionMap, CompositionNames } from '../compositions';
+import { Containers } from '../styles/containers';
+import { Spacing, Typography } from '../styles';
 import { Button, IconButton } from 'react-native-paper';
-import AppHeader from '../../components/AppHeader';
-import SelectCompositionDialog from '../../components/SelectCompositionDialog';
+import SelectCompositionDialog from '../components/SelectCompositionDialog';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { ParamListBase } from '@react-navigation/native';
+import Composition, { CompositionHandle } from '../components/Composition';
 
-export default function Create(): JSX.Element {
+type CreateProps = {
+  navigation: StackNavigationProp<ParamListBase, string, undefined>;
+};
+
+export default function Create({ navigation }: CreateProps): JSX.Element {
   const [play, setPlay] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [composition, setComposition] = useState(CompositionNames.LLUVIA);
-
-  const renderComposition = () => {
-    const map: Record<string, JSX.Element> = {
-      [CompositionNames.CHAOS_TREE]: <ChaosTree />,
-      [CompositionNames.CURVES]: <Curves />,
-      [CompositionNames.LLUVIA]: <Lluvia play={play} />,
-      [CompositionNames.RECTANGLES]: <Rectangles />,
-      [CompositionNames.WEATHER_TREE]: <WeatherTree />,
-      [CompositionNames.ZIG_ZAG]: <ZigZag />,
-    };
-
-    return map[composition];
-  };
+  const ref = useRef<CompositionHandle>(null);
 
   const handleSelect = (name: CompositionNames) => {
     setComposition(name);
@@ -46,9 +32,16 @@ export default function Create(): JSX.Element {
     setModalVisible(false);
   };
 
+  const handleSave = (data: string) => {
+    navigation.push('Save', { imageUri: data });
+  };
+
+  const handleSavePressed = () => {
+    ref.current?.saveCanvas();
+  };
+
   return (
     <>
-      <AppHeader title="Create" />
       <View style={style.container}>
         <SelectCompositionDialog
           title="Select Art"
@@ -66,7 +59,12 @@ export default function Create(): JSX.Element {
             onPress={() => setPlay(!play)}
             style={style.soundIcon}
           />
-          {renderComposition()}
+          <Composition
+            ref={ref}
+            play={play}
+            onSaveCanvas={handleSave}
+            {...CompositionMap[composition]}
+          />
         </View>
 
         <View style={style.buttonRow}>
@@ -76,7 +74,7 @@ export default function Create(): JSX.Element {
             onPress={() => setModalVisible(true)}>
             {composition}
           </Button>
-          <Button mode="contained" onPress={() => console.log('saved')}>
+          <Button mode="contained" onPress={handleSavePressed}>
             Save
           </Button>
         </View>

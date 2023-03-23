@@ -5,10 +5,9 @@
 import React, { useState } from 'react';
 import { FlatList, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import AppHeader from '../../components/AppHeader';
-import { CompositionNames } from '../../components/compositions';
-import Thumbnail from '../../components/Thumbnail';
-import { Containers } from '../../styles';
+import { CompositionNames } from '../compositions';
+import Thumbnail from '../components/Thumbnail';
+import { Containers } from '../styles';
 
 type ItemInfo = {
   id: number;
@@ -26,19 +25,19 @@ const thumbnails: ItemInfo[] = [
   {
     id: 0,
     name: CompositionNames.CHAOS_TREE,
-    source: require('../../assets/chaos-tree.png'),
+    source: require('../assets/chaos-tree.png'),
     like: true,
   },
   {
     id: 1,
     name: CompositionNames.CURVES,
-    source: require('../../assets/curves.png'),
+    source: require('../assets/curves.png'),
     like: false,
   },
   {
     id: 2,
     name: CompositionNames.LLUVIA,
-    source: require('../../assets/lluvia.png'),
+    source: require('../assets/lluvia.png'),
     like: true,
   },
 ];
@@ -69,20 +68,16 @@ export default function Discover(): JSX.Element {
   };
 
   return (
-    <>
-      <AppHeader title="Discover" />
-
-      <View style={style.container}>
-        <FlatList
-          data={posts}
-          renderItem={({ item }) => (
-            <Item item={item} onPress={() => handlePress(item)} />
-          )}
-          contentContainerStyle={style.flatlist}
-          numColumns={2}
-        />
-      </View>
-    </>
+    <View style={style.container}>
+      <FlatList
+        data={posts}
+        renderItem={({ item }) => (
+          <Item item={item} onPress={() => handlePress(item)} />
+        )}
+        contentContainerStyle={style.flatlist}
+        numColumns={2}
+      />
+    </View>
   );
 }
 
