@@ -27,11 +27,11 @@ const getWebviewHTML = (sketch: string) => `
       overflow: hidden;
     }
   </style>
-  <script>${raw('../../node_modules/p5/lib/p5.min.js')}</script>
-  <script>${sketch}</script>
 </head>
 <body>
   <main></main>
+  <script>${raw('../../node_modules/p5/lib/p5.min.js')}</script>
+  <script>${sketch}</script>
 </body>
 </html>
 `;
