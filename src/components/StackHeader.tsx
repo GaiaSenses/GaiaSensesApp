@@ -7,14 +7,12 @@ import { Appbar } from 'react-native-paper';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { getHeaderTitle } from '@react-navigation/elements';
 
-type AppHeaderProps = StackHeaderProps;
-
-export default function AppHeader({
+export function StackHeader({
   navigation,
   options,
   route,
   back,
-}: AppHeaderProps): JSX.Element {
+}: StackHeaderProps): JSX.Element {
   const title = getHeaderTitle(options, route.name);
 
   return (

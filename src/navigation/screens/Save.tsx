@@ -2,20 +2,16 @@
  * @format
  */
 
-import { ParamListBase, Route } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Image } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-import { Containers } from '../styles';
+import { Containers } from '../../styles';
+import { CreateStackScreenProps } from '../types';
 
-type SaveProps = {
-  navigation: StackNavigationProp<ParamListBase, string, undefined>;
-  route: Route<string, { imageUri: string }>;
-};
+type SaveProps = CreateStackScreenProps<'Save'>;
 
-export default function Save({ navigation, route }: SaveProps): JSX.Element {
+export function Save({ navigation, route }: SaveProps): JSX.Element {
   const [text, setText] = useState('');
   const { imageUri } = route.params;
 

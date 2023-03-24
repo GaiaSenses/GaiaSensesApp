@@ -14,7 +14,7 @@ type ThumbnailProps = {
   style?: ImageStyle;
 };
 
-export default function Thumbnail({
+export function Thumbnail({
   source,
   size,
   style,

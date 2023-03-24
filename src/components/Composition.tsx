@@ -49,7 +49,7 @@ export type CompositionHandle = {
   saveCanvas: () => void;
 };
 
-const Composition = forwardRef<CompositionHandle, CompositionProps>(
+export const Composition = forwardRef<CompositionHandle, CompositionProps>(
   (
     {
       sketch,
@@ -113,8 +113,6 @@ const Composition = forwardRef<CompositionHandle, CompositionProps>(
     );
   },
 );
-
-export default Composition;
 
 const style = StyleSheet.create({
   container: {

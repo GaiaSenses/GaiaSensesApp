@@ -5,9 +5,9 @@
 import React, { useState } from 'react';
 import { FlatList, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { CompositionNames } from '../compositions';
-import Thumbnail from '../components/Thumbnail';
-import { Containers } from '../styles';
+import { CompositionNames } from '../../compositions';
+import { TabHeader, Thumbnail } from '../../components';
+import { Containers } from '../../styles';
 
 type ItemInfo = {
   id: number;
@@ -25,19 +25,19 @@ const thumbnails: ItemInfo[] = [
   {
     id: 0,
     name: CompositionNames.CHAOS_TREE,
-    source: require('../assets/chaos-tree.png'),
+    source: require('../../assets/chaos-tree.png'),
     like: true,
   },
   {
     id: 1,
     name: CompositionNames.CURVES,
-    source: require('../assets/curves.png'),
+    source: require('../../assets/curves.png'),
     like: false,
   },
   {
     id: 2,
     name: CompositionNames.LLUVIA,
-    source: require('../assets/lluvia.png'),
+    source: require('../../assets/lluvia.png'),
     like: true,
   },
 ];
@@ -56,7 +56,7 @@ function Item({ item, onPress }: ItemProps): JSX.Element {
   );
 }
 
-export default function Discover(): JSX.Element {
+export function Discover(): JSX.Element {
   const [posts, setPosts] = useState(thumbnails);
 
   const handlePress = (item: ItemInfo) => {
@@ -68,16 +68,20 @@ export default function Discover(): JSX.Element {
   };
 
   return (
-    <View style={style.container}>
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => (
-          <Item item={item} onPress={() => handlePress(item)} />
-        )}
-        contentContainerStyle={style.flatlist}
-        numColumns={2}
-      />
-    </View>
+    <>
+      <TabHeader title="Discover" />
+
+      <View style={style.container}>
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => (
+            <Item item={item} onPress={() => handlePress(item)} />
+          )}
+          contentContainerStyle={style.flatlist}
+          numColumns={2}
+        />
+      </View>
+    </>
   );
 }
 

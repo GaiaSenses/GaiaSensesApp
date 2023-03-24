@@ -4,18 +4,18 @@
 
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import AppHeader from '../components/AppHeader';
-import Create from '../screens/Create';
-import Save from '../screens/Save';
+import { StackHeader } from '../../components';
+import { Create, Save } from '../screens';
+import { CreateStackParamList } from '../types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<CreateStackParamList>();
 
-export default function CreateNavigator(): JSX.Element {
+export function CreateNavigator(): JSX.Element {
   return (
     <Stack.Navigator
       screenOptions={{
         headerMode: 'screen',
-        header: AppHeader,
+        header: StackHeader,
       }}>
       <Stack.Screen name="Create" component={Create} />
       <Stack.Screen name="Save" component={Save} />

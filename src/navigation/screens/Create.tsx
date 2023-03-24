@@ -4,20 +4,20 @@
 
 import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { CompositionMap, CompositionNames } from '../compositions';
-import { Containers } from '../styles/containers';
-import { Spacing, Typography } from '../styles';
+import { CompositionMap, CompositionNames } from '../../compositions';
+import { Containers } from '../../styles/containers';
+import { Spacing, Typography } from '../../styles';
 import { Button, IconButton } from 'react-native-paper';
-import SelectCompositionDialog from '../components/SelectCompositionDialog';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { ParamListBase } from '@react-navigation/native';
-import Composition, { CompositionHandle } from '../components/Composition';
+import {
+  Composition,
+  CompositionHandle,
+  SelectCompositionDialog,
+} from '../../components';
+import { CreateStackScreenProps } from '../types';
 
-type CreateProps = {
-  navigation: StackNavigationProp<ParamListBase, string, undefined>;
-};
+type CreateProps = CreateStackScreenProps<'Create'>;
 
-export default function Create({ navigation }: CreateProps): JSX.Element {
+export function Create({ navigation }: CreateProps): JSX.Element {
   const [play, setPlay] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [composition, setComposition] = useState(CompositionNames.LLUVIA);

@@ -13,7 +13,7 @@ import {
 } from 'react-native-paper';
 import { Containers } from '../styles';
 import { CompositionNames } from '../compositions';
-import Thumbnail from './Thumbnail';
+import { Thumbnail } from './Thumbnail';
 
 type SelectCompositionDialogProps = {
   title: string;
@@ -90,7 +90,7 @@ function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
   );
 }
 
-export default function SelectCompositionDialog(
+export function SelectCompositionDialog(
   props: SelectCompositionDialogProps,
 ): JSX.Element {
   const [selected, setSelected] = useState(CompositionNames.LLUVIA);

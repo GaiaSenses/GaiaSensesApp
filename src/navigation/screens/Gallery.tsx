@@ -5,9 +5,9 @@
 import React, { useState } from 'react';
 import { FlatList, ImageSourcePropType, StyleSheet, View } from 'react-native';
 import { Divider, IconButton, Menu } from 'react-native-paper';
-import { CompositionNames } from '../compositions';
-import Thumbnail from '../components/Thumbnail';
-import { Containers } from '../styles';
+import { CompositionNames } from '../../compositions';
+import { TabHeader, Thumbnail } from '../../components';
+import { Containers } from '../../styles';
 
 type ItemInfo = {
   id: number;
@@ -25,19 +25,19 @@ const thumbnails: ItemInfo[] = [
   {
     id: 0,
     name: CompositionNames.WEATHER_TREE,
-    source: require('../assets/weather-tree.png'),
+    source: require('../../assets/weather-tree.png'),
     like: true,
   },
   {
     id: 1,
     name: CompositionNames.ZIG_ZAG,
-    source: require('../assets/zig-zag.png'),
+    source: require('../../assets/zig-zag.png'),
     like: false,
   },
   {
     id: 2,
     name: CompositionNames.LLUVIA,
-    source: require('../assets/lluvia.png'),
+    source: require('../../assets/lluvia.png'),
     like: true,
   },
 ];
@@ -99,7 +99,7 @@ function Item({ item, onPress }: ItemProps): JSX.Element {
   );
 }
 
-export default function Gallery(): JSX.Element {
+export function Gallery(): JSX.Element {
   const [posts, setPosts] = useState(thumbnails);
 
   const handlePress = (item: ItemInfo) => {
@@ -111,16 +111,20 @@ export default function Gallery(): JSX.Element {
   };
 
   return (
-    <View style={style.container}>
-      <FlatList
-        data={posts}
-        renderItem={({ item }) => (
-          <Item item={item} onPress={() => handlePress(item)} />
-        )}
-        contentContainerStyle={style.flatlist}
-        numColumns={2}
-      />
-    </View>
+    <>
+      <TabHeader title="Gallery" />
+
+      <View style={style.container}>
+        <FlatList
+          data={posts}
+          renderItem={({ item }) => (
+            <Item item={item} onPress={() => handlePress(item)} />
+          )}
+          contentContainerStyle={style.flatlist}
+          numColumns={2}
+        />
+      </View>
+    </>
   );
 }
 
