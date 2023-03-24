@@ -1,6 +1,8 @@
 package com.gaiasensesapp;
 
 import android.app.Application;
+import android.webkit.WebView;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -58,5 +60,9 @@ public class MainApplication extends Application implements ReactApplication {
       DefaultNewArchitectureEntryPoint.load();
     }
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+
+    if (BuildConfig.DEBUG) {
+        WebView.setWebContentsDebuggingEnabled(true);
+    }
   }
 }
