@@ -4,9 +4,16 @@
 
 import React, { useState } from 'react';
 import { ImageSourcePropType, StyleSheet, View } from 'react-native';
-import { Menu, IconButton, Divider, Text, Avatar } from 'react-native-paper';
+import {
+  Menu,
+  IconButton,
+  Divider,
+  Text,
+  Avatar,
+  Surface,
+} from 'react-native-paper';
 import { CompositionNames } from '../compositions';
-import { Colors, Containers, Spacing } from '../styles';
+import { Containers, Spacing } from '../styles';
 import { FlipView } from './FlipView';
 import { Thumbnail } from './Thumbnail';
 
@@ -57,7 +64,7 @@ function PostImage({
   };
 
   return (
-    <View>
+    <Surface style={style.frontItem}>
       <View style={style.iconsContainer}>
         {onDelete && onPublish && (
           <Menu
@@ -90,19 +97,19 @@ function PostImage({
         />
       </View>
       <Thumbnail source={post.source} />
-    </View>
+    </Surface>
   );
 }
 
 function PostInfo(): JSX.Element {
   return (
-    <View style={style.backItem}>
+    <Surface style={style.backItem}>
       <Text>Hello World!</Text>
       <View style={style.userInfo}>
         <Avatar.Icon icon="account" size={32} style={style.avatar} />
         <Text variant="bodySmall">User Name</Text>
       </View>
-    </View>
+    </Surface>
   );
 }
 
@@ -117,11 +124,13 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     right: 0,
   },
+  frontItem: {
+    ...Containers.rounded,
+  },
   backItem: {
     ...Containers.centered,
     ...Containers.card,
     ...Containers.rounded,
-    backgroundColor: Colors.primary,
   },
   userInfo: {
     ...Containers.hcentered,

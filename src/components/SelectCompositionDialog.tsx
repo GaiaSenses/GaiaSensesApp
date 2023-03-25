@@ -70,7 +70,10 @@ const thumbnails: ItemInfo[] = [
 
 function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
   return (
-    <TouchableRipple onPress={() => onSelect(item.name)}>
+    <TouchableRipple
+      borderless
+      onPress={() => onSelect(item.name)}
+      style={style.thumbnailContainer}>
       <>
         {selected && (
           <IconButton
@@ -139,10 +142,12 @@ const style = StyleSheet.create({
     top: 0,
     right: 0,
   },
+  thumbnailContainer: {
+    margin: Spacing.small,
+  },
   thumbnail: {
     width: 150,
     height: 150,
-    margin: Spacing.small,
   },
   selected: {
     opacity: 0.5,

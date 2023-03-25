@@ -22,21 +22,20 @@ export function FlipView({ front, back }: FlipViewProps): JSX.Element {
   const flip = () => {
     const frontAnimation = Animated.spring(angle.front, {
       toValue: directionFlag ? 1 : 0,
-      mass: 1,
+      mass: 2,
       stiffness: 100,
       useNativeDriver: true,
     });
 
     const backAnimation = Animated.spring(angle.back, {
       toValue: directionFlag ? 0 : 1,
-      mass: 1,
+      mass: 2,
       stiffness: 100,
       useNativeDriver: true,
     });
 
-    Animated.parallel([frontAnimation, backAnimation]).start(() => {
-      directionFlag = !directionFlag;
-    });
+    Animated.parallel([frontAnimation, backAnimation]).start();
+    directionFlag = !directionFlag;
   };
 
   const animatedStyle = {
@@ -65,8 +64,8 @@ export function FlipView({ front, back }: FlipViewProps): JSX.Element {
   };
 
   return (
-    <TouchableRipple onPress={() => flip()} style={style.container}>
-      <View>
+    <TouchableRipple onPress={() => flip()} borderless>
+      <View style={style.container}>
         <Animated.View style={[style.back, animatedStyle.back]}>
           {back}
         </Animated.View>
