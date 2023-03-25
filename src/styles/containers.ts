@@ -13,8 +13,8 @@ export const Containers = StyleSheet.create({
     borderTopRightRadius: 30,
   },
   card: {
-    width: 120,
-    height: 120,
+    width: 180,
+    height: 180,
   },
   vcentered: {
     flex: 1,
@@ -25,6 +25,11 @@ export const Containers = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   overlayed: {

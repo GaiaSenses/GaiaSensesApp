@@ -3,25 +3,12 @@
  */
 
 import React, { useState } from 'react';
-import { FlatList, ImageSourcePropType, StyleSheet, View } from 'react-native';
-import { Divider, IconButton, Menu } from 'react-native-paper';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { CompositionNames } from '../../compositions';
-import { TabHeader, Thumbnail } from '../../components';
+import { Post, PostInfo, TabHeader } from '../../components';
 import { Containers } from '../../styles';
 
-type ItemInfo = {
-  id: number;
-  name: CompositionNames;
-  source: ImageSourcePropType;
-  like: boolean;
-};
-
-type ItemProps = {
-  item: ItemInfo;
-  onPress: () => void;
-};
-
-const thumbnails: ItemInfo[] = [
+const thumbnails: PostInfo[] = [
   {
     id: 0,
     name: CompositionNames.WEATHER_TREE,
@@ -42,72 +29,23 @@ const thumbnails: ItemInfo[] = [
   },
 ];
 
-function Item({ item, onPress }: ItemProps): JSX.Element {
-  const [menuVisible, setMenuVisible] = useState(false);
-
-  const openMenu = () => {
-    setMenuVisible(true);
-  };
-
-  const closeMenu = () => {
-    setMenuVisible(false);
-  };
-
-  const handlePublish = () => {
-    console.log('published');
-    closeMenu();
-  };
-
-  const handleDelete = () => {
-    console.log('deleted');
-    closeMenu();
-  };
-
-  return (
-    <View>
-      <View style={style.iconsContainer}>
-        <Menu
-          visible={menuVisible}
-          onDismiss={closeMenu}
-          anchor={
-            <IconButton
-              icon="dots-vertical"
-              mode="contained"
-              onPress={openMenu}
-            />
-          }>
-          <Menu.Item
-            leadingIcon="publish"
-            title="Publish"
-            onPress={handlePublish}
-          />
-          <Divider />
-          <Menu.Item
-            leadingIcon="trash-can"
-            title="Delete"
-            onPress={handleDelete}
-          />
-        </Menu>
-        <IconButton
-          icon={item.like ? 'heart' : 'heart-outline'}
-          mode="contained"
-          onPress={() => onPress()}
-        />
-      </View>
-      <Thumbnail source={item.source} size={180} />
-    </View>
-  );
-}
-
 export function Gallery(): JSX.Element {
   const [posts, setPosts] = useState(thumbnails);
 
-  const handlePress = (item: ItemInfo) => {
+  const handleLike = (postId: number) => {
     setPosts(
       posts.map((post) =>
-        post.id === item.id ? { ...post, like: !post.like } : post,
+        post.id === postId ? { ...post, like: !post.like } : post,
       ),
     );
+  };
+
+  const handleDelete = (postId: number) => {
+    console.log(`deleted ${postId}`);
+  };
+
+  const handlePublish = (postId: number) => {
+    console.log(`published ${postId}`);
   };
 
   return (
@@ -118,7 +56,12 @@ export function Gallery(): JSX.Element {
         <FlatList
           data={posts}
           renderItem={({ item }) => (
-            <Item item={item} onPress={() => handlePress(item)} />
+            <Post
+              post={item}
+              onLike={handleLike}
+              onDelete={handleDelete}
+              onPublish={handlePublish}
+            />
           )}
           contentContainerStyle={style.flatlist}
           numColumns={2}
@@ -131,12 +74,6 @@ export function Gallery(): JSX.Element {
 const style = StyleSheet.create({
   container: {
     ...Containers.vcentered,
-  },
-  iconsContainer: {
-    ...Containers.overlayed,
-    flex: 1,
-    flexDirection: 'column',
-    right: 0,
   },
   flatlist: {
     flex: 1,

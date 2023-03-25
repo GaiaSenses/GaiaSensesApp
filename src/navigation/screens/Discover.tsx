@@ -3,25 +3,12 @@
  */
 
 import React, { useState } from 'react';
-import { FlatList, ImageSourcePropType, StyleSheet, View } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { CompositionNames } from '../../compositions';
-import { TabHeader, Thumbnail } from '../../components';
+import { Post, PostInfo, TabHeader } from '../../components';
 import { Containers } from '../../styles';
 
-type ItemInfo = {
-  id: number;
-  name: CompositionNames;
-  source: ImageSourcePropType;
-  like: boolean;
-};
-
-type ItemProps = {
-  item: ItemInfo;
-  onPress: () => void;
-};
-
-const thumbnails: ItemInfo[] = [
+const thumbnails: PostInfo[] = [
   {
     id: 0,
     name: CompositionNames.CHAOS_TREE,
@@ -42,27 +29,13 @@ const thumbnails: ItemInfo[] = [
   },
 ];
 
-function Item({ item, onPress }: ItemProps): JSX.Element {
-  return (
-    <View>
-      <IconButton
-        icon={item.like ? 'heart' : 'heart-outline'}
-        mode="contained"
-        onPress={() => onPress()}
-        style={style.icon}
-      />
-      <Thumbnail source={item.source} size={180} />
-    </View>
-  );
-}
-
 export function Discover(): JSX.Element {
   const [posts, setPosts] = useState(thumbnails);
 
-  const handlePress = (item: ItemInfo) => {
+  const handleLike = (itemId: number) => {
     setPosts(
       posts.map((post) =>
-        post.id === item.id ? { ...post, like: !post.like } : post,
+        post.id === itemId ? { ...post, like: !post.like } : post,
       ),
     );
   };
@@ -74,9 +47,7 @@ export function Discover(): JSX.Element {
       <View style={style.container}>
         <FlatList
           data={posts}
-          renderItem={({ item }) => (
-            <Item item={item} onPress={() => handlePress(item)} />
-          )}
+          renderItem={({ item }) => <Post post={item} onLike={handleLike} />}
           contentContainerStyle={style.flatlist}
           numColumns={2}
         />
@@ -92,10 +63,5 @@ const style = StyleSheet.create({
   flatlist: {
     flex: 1,
     alignItems: 'center',
-  },
-  icon: {
-    ...Containers.overlayed,
-    top: 0,
-    right: 0,
   },
 });

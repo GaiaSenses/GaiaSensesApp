@@ -11,7 +11,7 @@ import {
   Portal,
   TouchableRipple,
 } from 'react-native-paper';
-import { Containers } from '../styles';
+import { Containers, Spacing } from '../styles';
 import { CompositionNames } from '../compositions';
 import { Thumbnail } from './Thumbnail';
 
@@ -82,8 +82,7 @@ function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
         )}
         <Thumbnail
           source={item.source}
-          size={150}
-          style={selected ? style.selected : undefined}
+          style={[style.thumbnail, selected ? style.selected : undefined]}
         />
       </>
     </TouchableRipple>
@@ -139,6 +138,11 @@ const style = StyleSheet.create({
     ...Containers.overlayed,
     top: 0,
     right: 0,
+  },
+  thumbnail: {
+    width: 150,
+    height: 150,
+    margin: Spacing.small,
   },
   selected: {
     opacity: 0.5,
