@@ -7,9 +7,9 @@ import { Image } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { Containers } from '../../styles';
-import { CreateStackScreenProps } from '../types';
+import { AppStackScreenProps } from '../types';
 
-type SaveProps = CreateStackScreenProps<'Save'>;
+type SaveProps = AppStackScreenProps<'Save'>;
 
 export function Save({ navigation, route }: SaveProps): JSX.Element {
   const [text, setText] = useState('');

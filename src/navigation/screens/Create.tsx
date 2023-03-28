@@ -13,9 +13,9 @@ import {
   CompositionHandle,
   SelectCompositionDialog,
 } from '../../components';
-import { CreateStackScreenProps } from '../types';
+import { AppTabScreenProps } from '../types';
 
-type CreateProps = CreateStackScreenProps<'Create'>;
+type CreateProps = AppTabScreenProps<'Create'>;
 
 export function Create({ navigation }: CreateProps): JSX.Element {
   const [play, setPlay] = useState(false);

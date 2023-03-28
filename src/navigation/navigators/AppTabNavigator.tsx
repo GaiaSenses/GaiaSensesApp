@@ -4,29 +4,28 @@
 
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { CreateNavigator } from './CreateNavigator';
 import { AppTabParamList } from '../types';
-import { Discover, Gallery } from '../screens';
+import { Create, Discover, Gallery } from '../screens';
 
 const Tab = createMaterialBottomTabNavigator<AppTabParamList>();
 
-export function AppNavigator() {
+export function AppTabNavigator() {
   return (
     <Tab.Navigator sceneAnimationType="shifting">
       <Tab.Screen
-        name="DiscoverTab"
+        name="Discover"
         component={Discover}
-        options={{ tabBarIcon: 'card-search', tabBarLabel: 'Discover' }}
+        options={{ tabBarIcon: 'card-search' }}
       />
       <Tab.Screen
-        name="CreateTab"
-        component={CreateNavigator}
-        options={{ tabBarIcon: 'plus', tabBarLabel: 'Create' }}
+        name="Create"
+        component={Create}
+        options={{ tabBarIcon: 'plus' }}
       />
       <Tab.Screen
-        name="GalleryTab"
+        name="Gallery"
         component={Gallery}
-        options={{ tabBarIcon: 'account', tabBarLabel: 'Gallery' }}
+        options={{ tabBarIcon: 'account' }}
       />
     </Tab.Navigator>
   );

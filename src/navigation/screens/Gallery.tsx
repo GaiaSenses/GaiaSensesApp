@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { CompositionNames } from '../../compositions';
-import { Post, PostInfo, TabHeader } from '../../components';
+import { Post, PostInfo } from '../../components';
 import { Containers } from '../../styles';
 
 const thumbnails: PostInfo[] = [
@@ -49,25 +49,21 @@ export function Gallery(): JSX.Element {
   };
 
   return (
-    <>
-      <TabHeader title="Gallery" />
-
-      <View style={style.container}>
-        <FlatList
-          data={posts}
-          renderItem={({ item }) => (
-            <Post
-              post={item}
-              onLike={handleLike}
-              onDelete={handleDelete}
-              onPublish={handlePublish}
-            />
-          )}
-          contentContainerStyle={style.flatlist}
-          numColumns={2}
-        />
-      </View>
-    </>
+    <View style={style.container}>
+      <FlatList
+        data={posts}
+        renderItem={({ item }) => (
+          <Post
+            post={item}
+            onLike={handleLike}
+            onDelete={handleDelete}
+            onPublish={handlePublish}
+          />
+        )}
+        contentContainerStyle={style.flatlist}
+        numColumns={2}
+      />
+    </View>
   );
 }
 

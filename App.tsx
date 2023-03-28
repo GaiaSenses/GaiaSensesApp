@@ -8,13 +8,13 @@ import { StatusBar, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import { AppNavigator } from './src/navigation/navigators';
 import {
   AppDarkTheme,
   AppLightTheme,
   NavigatorDarkTheme,
   NavigatorLightTheme,
 } from './src/styles';
+import { RootNavigator } from './src/navigation/navigators';
 
 export default function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';
@@ -28,7 +28,7 @@ export default function App(): JSX.Element {
           barStyle={isDark ? 'light-content' : 'dark-content'}
           backgroundColor={appTheme.colors.background}
         />
-        <AppNavigator />
+        <RootNavigator />
       </NavigationContainer>
     </PaperProvider>
   );

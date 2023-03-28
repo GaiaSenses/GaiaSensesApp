@@ -2,5 +2,6 @@
  * @format
  */
 
-export * from './AppNavigator';
-export * from './CreateNavigator';
+export * from './AppTabNavigator';
+export * from './AppStackNavigator';
+export * from './RootNavigator';

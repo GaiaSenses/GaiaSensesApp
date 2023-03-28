@@ -2,6 +2,7 @@
  * @format
  */
 
+import { DrawerScreenProps } from '@react-navigation/drawer';
 import { MaterialBottomTabScreenProps } from '@react-navigation/material-bottom-tabs';
 import {
   CompositeScreenProps,
@@ -9,24 +10,37 @@ import {
 } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-// main navigator
-export type AppTabParamList = {
-  CreateTab: NavigatorScreenParams<CreateStackParamList>;
-  DiscoverTab: undefined;
-  GalleryTab: undefined;
+// drawer navigator
+export type RootParamList = {
+  Root: NavigatorScreenParams<AppStackParamList>;
 };
 
-export type AppTabScreenProps<T extends keyof AppTabParamList> =
-  MaterialBottomTabScreenProps<AppTabParamList, T>;
+export type RootScreenProps<T extends keyof RootParamList> = DrawerScreenProps<
+  RootParamList,
+  T
+>;
 
-// navigator from 'create' tab
-export type CreateStackParamList = {
-  Create: undefined;
+// stack navigator
+export type AppStackParamList = {
+  Tabs: NavigatorScreenParams<AppTabParamList>;
   Save: { imageUri: string };
 };
 
-export type CreateStackScreenProps<T extends keyof CreateStackParamList> =
+export type AppStackScreenProps<T extends keyof AppStackParamList> =
   CompositeScreenProps<
-    StackScreenProps<CreateStackParamList, T>,
-    AppTabScreenProps<keyof AppTabParamList>
+    StackScreenProps<AppStackParamList, T>,
+    RootScreenProps<keyof RootParamList>
+  >;
+
+// tab navigator
+export type AppTabParamList = {
+  Create: undefined;
+  Discover: undefined;
+  Gallery: undefined;
+};
+
+export type AppTabScreenProps<T extends keyof AppTabParamList> =
+  CompositeScreenProps<
+    MaterialBottomTabScreenProps<AppTabParamList, T>,
+    AppStackScreenProps<keyof AppStackParamList>
   >;
