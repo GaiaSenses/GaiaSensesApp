@@ -8,25 +8,12 @@ import { Avatar, Button, Divider, Drawer, Text } from 'react-native-paper';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
-  useDrawerProgress,
 } from '@react-navigation/drawer';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
 
 export function DrawerContent(props: DrawerContentComponentProps): JSX.Element {
-  const progress = useDrawerProgress();
-  const animatedStyle = useAnimatedStyle(() => {
-    const translateX = interpolate(progress.value, [0, 1], [-50, 0]);
-
-    return { transform: [{ translateX: withSpring(translateX) }] };
-  });
-
   return (
     <DrawerContentScrollView {...props}>
-      <Animated.View style={[style.container, animatedStyle]}>
+      <View style={style.container}>
         <View style={style.userInfo}>
           <Avatar.Icon icon="account" />
           <Text variant="titleLarge" style={style.title}>
@@ -43,7 +30,7 @@ export function DrawerContent(props: DrawerContentComponentProps): JSX.Element {
           <Divider horizontalInset />
         </View>
         <Button icon="logout">Quit</Button>
-      </Animated.View>
+      </View>
     </DrawerContentScrollView>
   );
 }
