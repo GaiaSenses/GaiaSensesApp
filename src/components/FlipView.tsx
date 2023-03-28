@@ -2,9 +2,14 @@
  * @format
  */
 
-import React, { useRef } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { TouchableRipple } from 'react-native-paper';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 import { Spacing } from '../styles';
 
 type FlipViewProps = {
@@ -13,65 +18,37 @@ type FlipViewProps = {
 };
 
 export function FlipView({ front, back }: FlipViewProps): JSX.Element {
-  const angle = useRef({
-    front: new Animated.Value(0),
-    back: new Animated.Value(1),
-  }).current;
-  let directionFlag = useRef(true).current;
+  const angleBack = useSharedValue(180);
+  const angleFront = useSharedValue(0);
+  const directionFlag = useSharedValue(true);
+
+  const backStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotateY: `${angleBack.value}deg` }],
+    };
+  });
+
+  const frontStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotateY: `${angleFront.value}deg` }],
+    };
+  });
 
   const flip = () => {
-    const frontAnimation = Animated.spring(angle.front, {
-      toValue: directionFlag ? 1 : 0,
-      mass: 2,
-      stiffness: 100,
-      useNativeDriver: true,
+    angleBack.value = withSpring(directionFlag.value ? 0 : 180, {
+      mass: 0.5,
     });
-
-    const backAnimation = Animated.spring(angle.back, {
-      toValue: directionFlag ? 0 : 1,
-      mass: 2,
-      stiffness: 100,
-      useNativeDriver: true,
+    angleFront.value = withSpring(directionFlag.value ? 180 : 0, {
+      mass: 0.5,
     });
-
-    Animated.parallel([frontAnimation, backAnimation]).start();
-    directionFlag = !directionFlag;
-  };
-
-  const animatedStyle = {
-    front: {
-      transform: [
-        {
-          rotateY: angle.front.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '180deg'],
-          }),
-        },
-        { perspective: 1000 },
-      ],
-    },
-    back: {
-      transform: [
-        {
-          rotateY: angle.back.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '180deg'],
-          }),
-        },
-        { perspective: 1000 },
-      ],
-    },
+    directionFlag.value = !directionFlag.value;
   };
 
   return (
     <TouchableRipple onPress={() => flip()} borderless>
       <View style={style.container}>
-        <Animated.View style={[style.back, animatedStyle.back]}>
-          {back}
-        </Animated.View>
-        <Animated.View style={[style.front, animatedStyle.front]}>
-          {front}
-        </Animated.View>
+        <Animated.View style={[style.back, backStyle]}>{back}</Animated.View>
+        <Animated.View style={[style.front, frontStyle]}>{front}</Animated.View>
       </View>
     </TouchableRipple>
   );
