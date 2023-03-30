@@ -4,8 +4,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { Form, Logo } from '../../components';
+import { AppTitle } from '../../components';
 import useAuth from '../../hooks/useAuth';
 import { SignInRequest } from '../../services/auth';
 import { RootStackScreenProps } from '../types';
@@ -37,11 +38,8 @@ export function Login({ navigation }: LoginProps): JSX.Element {
 
   return (
     <View style={style.container}>
-      <Logo />
-
-      <Text variant="headlineLarge" style={style.title}>
-        Login
-      </Text>
+      <Logo style={style.logo} />
+      <AppTitle />
 
       <Form onLogin={handleLogin} enabled={isFormEnabled} />
 
@@ -57,7 +55,7 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  title: {
-    marginBottom: 20,
+  logo: {
+    marginBottom: 0,
   },
 });

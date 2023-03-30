@@ -4,8 +4,8 @@
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
-import { Form, Logo } from '../../components';
+import { Button } from 'react-native-paper';
+import { AppTitle, Form, Logo } from '../../components';
 import useAuth from '../../hooks/useAuth';
 import { SignUpRequest } from '../../services/auth';
 import { RootStackScreenProps } from '../types';
@@ -21,11 +21,8 @@ export function Register({ navigation }: RegisterProps): JSX.Element {
 
   return (
     <View style={style.container}>
-      <Logo />
-
-      <Text variant="headlineLarge" style={style.title}>
-        Register
-      </Text>
+      <Logo style={style.logo} />
+      <AppTitle />
 
       <Form onRegister={handleRegister} enabled />
 
@@ -43,5 +40,8 @@ const style = StyleSheet.create({
   },
   title: {
     marginBottom: 20,
+  },
+  logo: {
+    marginBottom: 0,
   },
 });

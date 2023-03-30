@@ -2,6 +2,7 @@
  * @format
  */
 
+export * from './AppTitle';
 export * from './StackHeader';
 export * from './Composition';
 export * from './DrawerContent';
