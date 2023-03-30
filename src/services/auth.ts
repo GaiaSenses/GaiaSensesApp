@@ -13,6 +13,7 @@ export type SignInRequest = {
 export type SignInResponse = {
   name: string;
   email: string;
+  avatar: string;
   token: string;
 };
 

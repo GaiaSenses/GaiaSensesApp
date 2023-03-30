@@ -13,6 +13,7 @@ import {
   Surface,
 } from 'react-native-paper';
 import { CompositionNames } from '../compositions';
+import useAuth from '../hooks/useAuth';
 import { Containers, Spacing } from '../styles';
 import { FlipView } from './FlipView';
 import { Thumbnail } from './Thumbnail';
@@ -102,11 +103,21 @@ function PostImage({
 }
 
 function PostInfo(): JSX.Element {
+  const { userData } = useAuth();
+
   return (
     <Surface style={style.backItem}>
       <Text>Hello World!</Text>
       <View style={style.userInfo}>
-        <Avatar.Icon icon="account" size={32} style={style.avatar} />
+        {userData ? (
+          <Avatar.Image
+            source={{ uri: userData.avatar }}
+            size={32}
+            style={style.avatar}
+          />
+        ) : (
+          <Avatar.Icon icon="account" size={32} style={style.avatar} />
+        )}
         <Text variant="bodySmall">User Name</Text>
       </View>
     </Surface>
