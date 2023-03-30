@@ -15,7 +15,7 @@ import {
   NavigatorLightTheme,
 } from './src/styles';
 import { RootNavigator } from './src/navigation/navigators';
-import { AuthProvider } from './src/contexts/UserContext';
+import { AuthProvider } from './src/contexts/AuthContext';
 
 export default function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';

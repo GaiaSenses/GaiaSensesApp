@@ -3,11 +3,11 @@
  */
 
 import { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import { AuthContext } from '../contexts/AuthContext';
 import { authService, SignInRequest, SignUpRequest } from '../services/auth';
 
 export default function useAuth() {
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(AuthContext);
 
   const authActions = {
     signUp: (userInfo: SignUpRequest) => authService.signUp(userInfo),

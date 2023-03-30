@@ -5,21 +5,21 @@
 import React, { createContext, useState, PropsWithChildren } from 'react';
 import { SignInResponse } from '../services/auth';
 
-type UserContextProps = {
+type AuthContextProps = {
   userData?: SignInResponse;
   setUserData?: (data: any) => void;
 };
 
 type AuthProviderProps = PropsWithChildren<{}>;
 
-export const UserContext = createContext<UserContextProps>({});
+export const AuthContext = createContext<AuthContextProps>({});
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [userData, setUserData] = useState<SignInResponse>();
 
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <AuthContext.Provider value={{ userData, setUserData }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 }
