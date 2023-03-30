@@ -15,6 +15,7 @@ import {
   NavigatorLightTheme,
 } from './src/styles';
 import { RootNavigator } from './src/navigation/navigators';
+import { AuthProvider } from './src/contexts/UserContext';
 
 export default function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';
@@ -22,14 +23,16 @@ export default function App(): JSX.Element {
   const navTheme = isDark ? NavigatorDarkTheme : NavigatorLightTheme;
 
   return (
-    <PaperProvider theme={appTheme}>
-      <NavigationContainer theme={navTheme}>
-        <StatusBar
-          barStyle={isDark ? 'light-content' : 'dark-content'}
-          backgroundColor={appTheme.colors.background}
-        />
-        <RootNavigator />
-      </NavigationContainer>
-    </PaperProvider>
+    <AuthProvider>
+      <PaperProvider theme={appTheme}>
+        <NavigationContainer theme={navTheme}>
+          <StatusBar
+            barStyle={isDark ? 'light-content' : 'dark-content'}
+            backgroundColor={appTheme.colors.background}
+          />
+          <RootNavigator />
+        </NavigationContainer>
+      </PaperProvider>
+    </AuthProvider>
   );
 }
