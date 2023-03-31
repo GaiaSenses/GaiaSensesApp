@@ -2,8 +2,8 @@
  * @format
  */
 
-import React, { useState } from 'react';
-import { ImageSourcePropType, StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import {
   Menu,
   IconButton,
@@ -11,8 +11,9 @@ import {
   Text,
   Avatar,
   Surface,
+  Badge,
 } from 'react-native-paper';
-import { CompositionNames } from '../compositions';
+
 import useAuth from '../hooks/useAuth';
 import { Containers, Spacing } from '../styles';
 import { FlipView } from './FlipView';
@@ -20,27 +21,51 @@ import { Thumbnail } from './Thumbnail';
 
 export type PostInfo = {
   id: number;
-  name: CompositionNames;
-  source: ImageSourcePropType;
-  like: boolean;
+  userId: number;
+  user: { name: string; avatar: string };
+  content: string;
+  url: string;
+  likes: LikeInfo;
+  published: boolean;
+};
+
+export type LikeInfo = {
+  count: number;
+  liked: boolean;
+  users: any[];
 };
 
 type PostProps = {
   post: PostInfo;
-  onLike: (postId: number) => void;
+  onLike: (postId: number, likeInfo: LikeInfo) => void;
   onDelete?: (postId: number) => void;
-  onPublish?: (postId: number) => void;
+  onPublish?: (postId: number, publishInfo: boolean) => void;
 };
 
-type PostImageProps = PostProps;
+type PostFrontProps = PostProps;
 
-function PostImage({
+function PostFront({
   post,
   onLike,
   onDelete,
   onPublish,
-}: PostImageProps): JSX.Element {
+}: PostFrontProps): JSX.Element {
+  const { userData } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
+  const [likeInfo, setLikeInfo] = useState<LikeInfo>({
+    count: 0,
+    liked: false,
+    users: [],
+  });
+
+  useEffect(() => {
+    setLikeInfo(post.likes);
+  }, [post.likes]);
+
+  useEffect(() => {
+    setIsPublished(post.published);
+  }, [post.published]);
 
   const openMenu = () => {
     setMenuVisible(true);
@@ -51,7 +76,17 @@ function PostImage({
   };
 
   const handleLike = () => {
-    onLike(post.id);
+    const isLiked = likeInfo.liked;
+    const newLikeInfo: LikeInfo = {
+      liked: !isLiked,
+      count: isLiked ? likeInfo.count - 1 : likeInfo.count + 1,
+      users: isLiked
+        ? [...likeInfo.users].filter((user) => user.name !== userData?.name)
+        : [...likeInfo.users].concat([{ name: userData?.name }]),
+    };
+
+    setLikeInfo(newLikeInfo);
+    onLike(post.id, newLikeInfo);
   };
 
   const handleDelete = () => {
@@ -60,7 +95,11 @@ function PostImage({
   };
 
   const handlePublish = () => {
-    onPublish && onPublish(post.id);
+    const newIsPublished = !isPublished;
+
+    setIsPublished(newIsPublished);
+    onPublish && onPublish(post.id, newIsPublished);
+
     closeMenu();
   };
 
@@ -81,6 +120,7 @@ function PostImage({
             <Menu.Item
               leadingIcon="publish"
               title="Publish"
+              disabled={isPublished}
               onPress={handlePublish}
             />
             <Divider />
@@ -91,41 +131,45 @@ function PostImage({
             />
           </Menu>
         )}
-        <IconButton
-          icon={post.like ? 'heart' : 'heart-outline'}
-          mode="contained"
-          onPress={handleLike}
-        />
+        <View>
+          <IconButton
+            icon={likeInfo.liked ? 'heart' : 'heart-outline'}
+            mode="contained"
+            onPress={handleLike}
+          />
+          <Badge visible={likeInfo.count !== 0} style={style.badge}>
+            {likeInfo.count}
+          </Badge>
+        </View>
       </View>
-      <Thumbnail source={post.source} />
+      <Thumbnail source={{ uri: post.url }} />
     </Surface>
   );
 }
 
-function PostInfo(): JSX.Element {
-  const { userData } = useAuth();
-
+function PostBack({ post }: { post: PostInfo }): JSX.Element {
   return (
     <Surface style={style.backItem}>
-      <Text>Hello World!</Text>
+      <Text>{post.content}</Text>
       <View style={style.userInfo}>
-        {userData ? (
-          <Avatar.Image
-            source={{ uri: userData.avatar }}
-            size={32}
-            style={style.avatar}
-          />
-        ) : (
-          <Avatar.Icon icon="account" size={32} style={style.avatar} />
-        )}
-        <Text variant="bodySmall">User Name</Text>
+        <Avatar.Image
+          source={{ uri: post.user.avatar }}
+          size={32}
+          style={style.avatar}
+        />
+        <Text variant="bodySmall">{post.user.name}</Text>
       </View>
     </Surface>
   );
 }
 
 export function Post(props: PostProps): JSX.Element {
-  return <FlipView front={<PostImage {...props} />} back={<PostInfo />} />;
+  return (
+    <FlipView
+      front={<PostFront {...props} />}
+      back={<PostBack post={props.post} />}
+    />
+  );
 }
 
 const style = StyleSheet.create({
@@ -152,5 +196,8 @@ const style = StyleSheet.create({
   },
   avatar: {
     marginRight: Spacing.small,
+  },
+  badge: {
+    position: 'absolute',
   },
 });

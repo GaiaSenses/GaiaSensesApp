@@ -2,50 +2,54 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { CompositionNames } from '../../compositions';
-import { Post, PostInfo } from '../../components';
-import { Containers } from '../../styles';
-
-const thumbnails: PostInfo[] = [
-  {
-    id: 0,
-    name: CompositionNames.WEATHER_TREE,
-    source: require('../../assets/weather-tree.png'),
-    like: true,
-  },
-  {
-    id: 1,
-    name: CompositionNames.ZIG_ZAG,
-    source: require('../../assets/zig-zag.png'),
-    like: false,
-  },
-  {
-    id: 2,
-    name: CompositionNames.LLUVIA,
-    source: require('../../assets/lluvia.png'),
-    like: true,
-  },
-];
+import { LikeInfo, Post, PostInfo } from '../../components';
+import { postService } from '../../services/post';
 
 export function Gallery(): JSX.Element {
-  const [posts, setPosts] = useState(thumbnails);
+  const [posts, setPosts] = useState<PostInfo[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const handleLike = (postId: number) => {
-    setPosts(
-      posts.map((post) =>
-        post.id === postId ? { ...post, like: !post.like } : post,
-      ),
-    );
+  useFocusEffect(
+    useCallback(() => {
+      refreshPosts();
+    }, []),
+  );
+
+  const refreshPosts = async () => {
+    setIsRefreshing(true);
+
+    const data = await postService.getFromUser();
+    setPosts(data);
+
+    setIsRefreshing(false);
   };
 
-  const handleDelete = (postId: number) => {
-    console.log(`deleted ${postId}`);
+  const handleLike = async (postId: number, likeInfo: LikeInfo) => {
+    if (likeInfo.liked) {
+      await postService.like(postId);
+    } else {
+      await postService.removeLike(postId);
+    }
   };
 
-  const handlePublish = (postId: number) => {
-    console.log(`published ${postId}`);
+  const handleDelete = async (postId: number) => {
+    setIsRefreshing(true);
+
+    setPosts(posts.filter((post) => post.id !== postId));
+    await postService.delete(postId);
+
+    setIsRefreshing(false);
+  };
+
+  const handlePublish = async (postId: number, publishInfo: boolean) => {
+    if (publishInfo) {
+      await postService.publish(postId);
+    } else {
+      // TODO: implement 'unpublish' action
+    }
   };
 
   return (
@@ -62,6 +66,8 @@ export function Gallery(): JSX.Element {
         )}
         contentContainerStyle={style.flatlist}
         numColumns={2}
+        refreshing={isRefreshing}
+        onRefresh={refreshPosts}
       />
     </View>
   );
@@ -69,10 +75,9 @@ export function Gallery(): JSX.Element {
 
 const style = StyleSheet.create({
   container: {
-    ...Containers.vcentered,
+    flex: 1,
   },
   flatlist: {
-    flex: 1,
     alignItems: 'center',
   },
 });

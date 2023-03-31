@@ -2,42 +2,38 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { CompositionNames } from '../../compositions';
-import { Post, PostInfo } from '../../components';
+import { LikeInfo, Post } from '../../components';
+import { postService } from '../../services/post';
 import { Containers } from '../../styles';
 
-const thumbnails: PostInfo[] = [
-  {
-    id: 0,
-    name: CompositionNames.CHAOS_TREE,
-    source: require('../../assets/chaos-tree.png'),
-    like: true,
-  },
-  {
-    id: 1,
-    name: CompositionNames.CURVES,
-    source: require('../../assets/curves.png'),
-    like: false,
-  },
-  {
-    id: 2,
-    name: CompositionNames.LLUVIA,
-    source: require('../../assets/lluvia.png'),
-    like: true,
-  },
-];
-
 export function Discover(): JSX.Element {
-  const [posts, setPosts] = useState(thumbnails);
+  const [posts, setPosts] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const handleLike = (itemId: number) => {
-    setPosts(
-      posts.map((post) =>
-        post.id === itemId ? { ...post, like: !post.like } : post,
-      ),
-    );
+  useFocusEffect(
+    useCallback(() => {
+      refreshPosts();
+    }, []),
+  );
+
+  const refreshPosts = async () => {
+    setIsRefreshing(true);
+
+    const data = await postService.getRecent();
+    setPosts(data);
+
+    setIsRefreshing(false);
+  };
+
+  const handleLike = async (postId: number, likeInfo: LikeInfo) => {
+    if (likeInfo.liked) {
+      await postService.like(postId);
+    } else {
+      await postService.removeLike(postId);
+    }
   };
 
   return (
@@ -47,6 +43,8 @@ export function Discover(): JSX.Element {
         renderItem={({ item }) => <Post post={item} onLike={handleLike} />}
         contentContainerStyle={style.flatlist}
         numColumns={2}
+        refreshing={isRefreshing}
+        onRefresh={refreshPosts}
       />
     </View>
   );
@@ -57,7 +55,6 @@ const style = StyleSheet.create({
     ...Containers.vcentered,
   },
   flatlist: {
-    flex: 1,
     alignItems: 'center',
   },
 });
