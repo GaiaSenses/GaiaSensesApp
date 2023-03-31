@@ -4,7 +4,14 @@
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Avatar, Button, Drawer, IconButton, Text } from 'react-native-paper';
+import {
+  Avatar,
+  Button,
+  Drawer,
+  IconButton,
+  Text,
+  useTheme,
+} from 'react-native-paper';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -15,6 +22,7 @@ import { useWeather } from '../hooks/useWeather';
 export function DrawerContent(props: DrawerContentComponentProps): JSX.Element {
   const { userData, authActions } = useAuth();
   const { weather, refreshWeather } = useWeather();
+  const { colors } = useTheme();
 
   const handleQuit = () => {
     authActions.signOut();
@@ -35,7 +43,15 @@ export function DrawerContent(props: DrawerContentComponentProps): JSX.Element {
           )}
           <View style={style.buttonRow}>
             <Text variant="titleLarge" style={style.title}>
-              Welcome, {userData?.name}!
+              Welcome,
+            </Text>
+            <Text
+              variant="titleLarge"
+              style={[style.title, { color: colors.tertiary }]}>
+              {` ${userData?.name}`}
+            </Text>
+            <Text variant="titleLarge" style={style.title}>
+              !
             </Text>
             <IconButton icon="refresh" onPress={handleRefresh} />
           </View>
@@ -44,7 +60,7 @@ export function DrawerContent(props: DrawerContentComponentProps): JSX.Element {
         <Drawer.Section showDivider={false} style={style.weatherInfo}>
           <Drawer.Item
             icon="map-marker"
-            label="São Paulo"
+            label={`${weather?.city || '---'} - ${weather?.state || ''}`}
             active
             style={style.weatherItem}
           />
@@ -52,6 +68,13 @@ export function DrawerContent(props: DrawerContentComponentProps): JSX.Element {
           <Drawer.Item
             icon="thermometer"
             label={`${weather?.main?.temp || '---'} ºC`}
+            active
+            style={style.weatherItem}
+          />
+
+          <Drawer.Item
+            icon="water-percent"
+            label={`${weather?.main?.humidity || '---'} %`}
             active
             style={style.weatherItem}
           />
