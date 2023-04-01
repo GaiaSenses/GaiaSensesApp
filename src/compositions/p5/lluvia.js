@@ -1,11 +1,14 @@
 // inspired by: https://openprocessing.org/sketch/386391
 
 const [w, h] = [innerWidth, innerHeight];
+const { weather } = window.App;
+
+const rain = weather.rain['1h'] || 5;
 
 function setup() {
   createCanvas(w, h);
   background(0);
-  frameRate(5);
+  frameRate(rain);
 }
 
 function draw() {

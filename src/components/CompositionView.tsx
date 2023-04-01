@@ -8,9 +8,10 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from 'react';
 import { StyleSheet, View } from 'react-native';
-import WebView from 'react-native-webview';
+import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import usePatch, { Patch } from '../hooks/usePatch';
 import { Containers } from '../styles';
 
@@ -36,32 +37,31 @@ const getWebviewHTML = (sketch: string) => `
 </html>
 `;
 
-export type CompositionProps = {
+export type CompositionViewProps = {
   sketch: string;
   patchSource: string;
   play: boolean;
   onPlay?: (patch: Patch) => void;
   onStop?: (patch: Patch) => void;
   onSaveCanvas?: (data: string) => void;
+  onLoad?: () => void;
 };
 
 export type CompositionHandle = {
-  saveCanvas: () => void;
+  saveCanvas: () => Promise<any>;
+  setVariable: (name: string, value: any) => void;
 };
 
-export const Composition = forwardRef<CompositionHandle, CompositionProps>(
+export const CompositionView = forwardRef<
+  CompositionHandle,
+  CompositionViewProps
+>(
   (
-    {
-      sketch,
-      patchSource,
-      play,
-      onPlay,
-      onStop,
-      onSaveCanvas,
-    }: CompositionProps,
+    { sketch, patchSource, play, onPlay, onStop, onLoad }: CompositionViewProps,
     ref,
   ): JSX.Element => {
     const { patch, loaded } = usePatch(patchSource);
+    const [message, setMessage] = useState<{ caller: string; payload: any }>();
     const webviewRef = useRef<WebView>(null);
 
     useEffect(() => {
@@ -79,20 +79,56 @@ export const Composition = forwardRef<CompositionHandle, CompositionProps>(
     useImperativeHandle(
       ref,
       () => {
-        const saveCanvas = () => {
+        const saveCanvas = async () => {
           webviewRef.current?.injectJavaScript(`(() => {
             const canvas = document.querySelector('canvas');
             const dataURL = canvas.toDataURL('image/jpeg', 0.2);
+            const msg = JSON.stringify({ caller: 'saveCanvas', payload: dataURL });
 
-            window.ReactNativeWebView.postMessage(dataURL);
+            window.ReactNativeWebView.postMessage(msg);
+          })();
+          true;
+          `);
+
+          return new Promise((resolve, reject) => {
+            const start = Date.now();
+            const check = () => {
+              if (message) {
+                const { payload } = message;
+                setMessage(undefined);
+                resolve(payload);
+              } else if (Date.now() - start > 2000) {
+                reject(new Error('timeout waiting for canvas data URI'));
+              } else {
+                setTimeout(check, 50);
+              }
+            };
+            check();
+          });
+        };
+
+        const setVariable = (name: string, value: any) => {
+          webviewRef.current?.injectJavaScript(`(() =>{
+            window.App.${name} = JSON.parse('${JSON.stringify(value)}');
           })();
           true;
           `);
         };
-        return { saveCanvas };
+
+        return { saveCanvas, setVariable };
       },
-      [],
+      [message],
     );
+
+    const injectGlobalVariable = () => `
+      window.App = {};
+      true;
+    `;
+
+    const handleMessage = (event: WebViewMessageEvent) => {
+      const msg = JSON.parse(event.nativeEvent.data);
+      setMessage(msg);
+    };
 
     return (
       <View style={style.container}>
@@ -107,7 +143,9 @@ export const Composition = forwardRef<CompositionHandle, CompositionProps>(
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           containerStyle={style.webview}
-          onMessage={(e) => onSaveCanvas && onSaveCanvas(e.nativeEvent.data)}
+          onMessage={handleMessage}
+          injectedJavaScriptBeforeContentLoaded={injectGlobalVariable()}
+          onLoadStart={() => onLoad && onLoad()}
         />
       </View>
     );

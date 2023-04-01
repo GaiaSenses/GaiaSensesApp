@@ -12,58 +12,58 @@ import {
   TouchableRipple,
 } from 'react-native-paper';
 import { Containers, Spacing } from '../styles';
-import { CompositionNames } from '../compositions';
+import { Composition } from '../compositions';
 import { Thumbnail } from './Thumbnail';
 
 type SelectCompositionDialogProps = {
   title: string;
   visible: boolean;
-  current: CompositionNames;
+  current: Composition.Names;
   onDismiss: () => void;
-  onSelect: (name: CompositionNames) => void;
+  onSelect: (name: Composition.Names) => void;
 };
 
 type ItemInfo = {
   id: number;
-  name: CompositionNames;
+  name: Composition.Names;
   source: ImageSourcePropType;
 };
 
 type ItemProps = {
   item: ItemInfo;
   selected: boolean;
-  onSelect: (name: CompositionNames) => void;
+  onSelect: (name: Composition.Names) => void;
 };
 
 const thumbnails: ItemInfo[] = [
   {
     id: 0,
-    name: CompositionNames.CHAOS_TREE,
+    name: Composition.Names.CHAOS_TREE,
     source: require('../assets/chaos-tree.png'),
   },
   {
     id: 1,
-    name: CompositionNames.CURVES,
+    name: Composition.Names.CURVES,
     source: require('../assets/curves.png'),
   },
   {
     id: 2,
-    name: CompositionNames.LLUVIA,
+    name: Composition.Names.LLUVIA,
     source: require('../assets/lluvia.png'),
   },
   {
     id: 3,
-    name: CompositionNames.RECTANGLES,
+    name: Composition.Names.RECTANGLES,
     source: require('../assets/rectangles.png'),
   },
   {
     id: 4,
-    name: CompositionNames.WEATHER_TREE,
+    name: Composition.Names.WEATHER_TREE,
     source: require('../assets/weather-tree.png'),
   },
   {
     id: 5,
-    name: CompositionNames.ZIG_ZAG,
+    name: Composition.Names.ZIG_ZAG,
     source: require('../assets/zig-zag.png'),
   },
 ];
@@ -95,14 +95,14 @@ function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
 export function SelectCompositionDialog(
   props: SelectCompositionDialogProps,
 ): JSX.Element {
-  const [selected, setSelected] = useState(CompositionNames.LLUVIA);
+  const [selected, setSelected] = useState(Composition.Names.LLUVIA);
   const { current } = props;
 
   useEffect(() => {
     setSelected(current);
   }, [current]);
 
-  const handleSelect = (name: CompositionNames) => {
+  const handleSelect = (name: Composition.Names) => {
     setSelected(name);
   };
 

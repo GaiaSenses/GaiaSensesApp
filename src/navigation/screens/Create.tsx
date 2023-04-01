@@ -2,28 +2,36 @@
  * @format
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { CompositionMap, CompositionNames } from '../../compositions';
+import {
+  ChaosTree,
+  Composition,
+  CompositionProps,
+  Curves,
+  Lluvia,
+  Rectangles,
+  WeatherTree,
+  ZigZag,
+} from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
 import { Button, IconButton } from 'react-native-paper';
-import {
-  Composition,
-  CompositionHandle,
-  SelectCompositionDialog,
-} from '../../components';
+import { CompositionHandle, SelectCompositionDialog } from '../../components';
 import { AppTabScreenProps } from '../types';
+import { useWeather } from '../../hooks/useWeather';
 
 type CreateProps = AppTabScreenProps<'Create'>;
 
 export function Create({ navigation }: CreateProps): JSX.Element {
   const [play, setPlay] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [composition, setComposition] = useState(CompositionNames.LLUVIA);
+  const [composition, setComposition] = useState(Composition.Names.LLUVIA);
   const ref = useRef<CompositionHandle>(null);
 
-  const handleSelect = (name: CompositionNames) => {
+  const { weather } = useWeather();
+
+  const handleSelect = (name: Composition.Names) => {
     setComposition(name);
     setModalVisible(false);
   };
@@ -32,13 +40,30 @@ export function Create({ navigation }: CreateProps): JSX.Element {
     setModalVisible(false);
   };
 
-  const handleSave = (data: string) => {
-    navigation.push('Save', { imageUri: data });
+  const handleSave = async () => {
+    const imageUri = await ref.current?.saveCanvas();
+    navigation.push('Save', { imageUri });
   };
 
-  const handleSavePressed = () => {
-    ref.current?.saveCanvas();
+  const handleCompositionLoad = () => {
+    ref.current?.setVariable('weather', weather);
   };
+
+  const CompostionWrapper = useCallback(
+    (props: CompositionProps) => {
+      const map = {
+        [Composition.Names.CHAOS_TREE]: ChaosTree,
+        [Composition.Names.CURVES]: Curves,
+        [Composition.Names.LLUVIA]: Lluvia,
+        [Composition.Names.RECTANGLES]: Rectangles,
+        [Composition.Names.WEATHER_TREE]: WeatherTree,
+        [Composition.Names.ZIG_ZAG]: ZigZag,
+      };
+      const Component = map[composition];
+      return <Component ref={ref} {...props} />;
+    },
+    [composition],
+  );
 
   return (
     <>
@@ -59,11 +84,10 @@ export function Create({ navigation }: CreateProps): JSX.Element {
             onPress={() => setPlay(!play)}
             style={style.soundIcon}
           />
-          <Composition
-            ref={ref}
+          <CompostionWrapper
             play={play}
-            onSaveCanvas={handleSave}
-            {...CompositionMap[composition]}
+            weather={weather}
+            onLoad={handleCompositionLoad}
           />
         </View>
 
@@ -74,7 +98,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
             onPress={() => setModalVisible(true)}>
             {composition}
           </Button>
-          <Button mode="contained" onPress={handleSavePressed}>
+          <Button mode="contained" onPress={handleSave}>
             Save
           </Button>
         </View>
