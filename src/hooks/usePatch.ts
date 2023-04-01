@@ -36,7 +36,6 @@ export default function usePatch(source: string) {
       }
 
       return () => {
-        console.log('destroy');
         PureData.destroyAudio();
         patchId.current = -1;
       };

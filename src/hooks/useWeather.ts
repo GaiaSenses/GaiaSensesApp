@@ -59,7 +59,7 @@ export function useWeather() {
       });
 
       const rainfall = await weatherService.getRainfall(latitude, longitude);
-      console.log(rainfall);
+
       cache['weather'] = rainfall;
       setWeather(rainfall);
     };
