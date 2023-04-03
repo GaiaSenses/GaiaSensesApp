@@ -3,17 +3,19 @@
 const FPS_MIN = 5;
 const FPS_MAX = 30;
 
-const CRITICAL_RAIN_MM = 10;
+const CRITICAL_RAIN = 10;
 const CRITICAL_TEMP = 35;
 
 const [width, height] = [innerWidth, innerHeight];
-let rainMili = 0;
-let temperature = 20;
+const { weather } = window.App;
+
+const rainMili = weather.rain['1h'] || 0;
+const temperature = weather.main.temp || 20;
 
 function setup() {
   createCanvas(width, height);
 
-  let fps = map(rainMili, 0, CRITICAL_RAIN_MM, FPS_MIN, FPS_MAX);
+  const fps = map(rainMili, 0, CRITICAL_RAIN, FPS_MIN, FPS_MAX);
   frameRate(fps);
 
   background(0);

@@ -13,6 +13,7 @@ import { Patch } from '../hooks/usePatch';
 
 export type CompositionProps = Pick<CompositionViewProps, 'play' | 'onLoad'> & {
   weather: any;
+  lightning: any;
 };
 
 export const ChaosTree = forwardRef<CompositionHandle, CompositionProps>(

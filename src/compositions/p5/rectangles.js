@@ -9,23 +9,23 @@ const RECT_MIN_HEIGHT = 15;
 const FPS_MIN = 1;
 const FPS_MAX = 60;
 
-const CRITICAL_RAIN_MM = 10;
+const CRITICAL_RAIN = 10;
 
-const [width, height] = [innerWidth, innerHeight];
-let rainMili = 0;
-let rectWidth = normalize(rainMili, RECT_MIN_WIDTH, RECT_MAX_WIDTH);
-let rectHeight = normalize(rainMili, RECT_MIN_HEIGHT, RECT_MAX_HEIGHT);
+const [w, h] = [innerWidth, innerHeight];
+const { weather } = window.App;
 
-function normalize(x, min = 0, max = 1) {
-  x = Math.min(x, CRITICAL_RAIN_MM);
-  x = Math.max(x, 0);
-  return ((max - min) / CRITICAL_RAIN_MM) * x + min;
-}
+const rain = weather.rain['1h'] || 0;
+let rectWidth = 0;
+let rectHeight = 0;
+let fps = 0;
 
 function setup() {
-  createCanvas(width, height);
+  createCanvas(w, h);
 
-  let fps = map(rainMili, 0, CRITICAL_RAIN_MM, FPS_MIN, FPS_MAX);
+  rectWidth = map(rain, 0, CRITICAL_RAIN, RECT_MIN_WIDTH, RECT_MAX_WIDTH);
+  rectHeight = map(rain, 0, CRITICAL_RAIN, RECT_MIN_HEIGHT, RECT_MAX_HEIGHT);
+  fps = map(rain, 0, CRITICAL_RAIN, FPS_MIN, FPS_MAX);
+
   frameRate(fps);
   background(0);
 }
@@ -33,8 +33,8 @@ function setup() {
 function draw() {
   noStroke();
   fill(0, 0, random(30, 255));
-  rect(random(width), random(height), random(rectWidth), random(rectHeight));
+  rect(random(w), random(h), random(rectWidth), random(rectHeight));
 
   fill(0, 0, 0);
-  rect(random(width), random(height), random(100), random(40));
+  rect(random(w), random(h), random(100), random(40));
 }

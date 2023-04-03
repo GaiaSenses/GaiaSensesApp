@@ -19,7 +19,7 @@ import { Spacing, Typography } from '../../styles';
 import { Button, IconButton } from 'react-native-paper';
 import { CompositionHandle, SelectCompositionDialog } from '../../components';
 import { AppTabScreenProps } from '../types';
-import { useWeather } from '../../hooks/useWeather';
+import { useLightning, useWeather } from '../../hooks/useWeather';
 
 type CreateProps = AppTabScreenProps<'Create'>;
 
@@ -30,6 +30,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
   const ref = useRef<CompositionHandle>(null);
 
   const { weather } = useWeather();
+  const { lightning } = useLightning();
 
   const handleSelect = (name: Composition.Names) => {
     setComposition(name);
@@ -47,10 +48,11 @@ export function Create({ navigation }: CreateProps): JSX.Element {
 
   const handleCompositionLoad = () => {
     ref.current?.setVariable('weather', weather);
+    ref.current?.setVariable('lightning', lightning);
   };
 
   const CompostionWrapper = useCallback(
-    (props: CompositionProps) => {
+    (props: Pick<CompositionProps, 'onLoad' | 'play'>) => {
       const map = {
         [Composition.Names.CHAOS_TREE]: ChaosTree,
         [Composition.Names.CURVES]: Curves,
@@ -60,9 +62,16 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.ZIG_ZAG]: ZigZag,
       };
       const Component = map[composition];
-      return <Component ref={ref} {...props} />;
+      return (
+        <Component
+          ref={ref}
+          weather={weather}
+          lightning={lightning}
+          {...props}
+        />
+      );
     },
-    [composition],
+    [composition, lightning, weather],
   );
 
   return (
@@ -84,11 +93,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
             onPress={() => setPlay(!play)}
             style={style.soundIcon}
           />
-          <CompostionWrapper
-            play={play}
-            weather={weather}
-            onLoad={handleCompositionLoad}
-          />
+          <CompostionWrapper play={play} onLoad={handleCompositionLoad} />
         </View>
 
         <View style={style.buttonRow}>
