@@ -113,3 +113,18 @@ export const ZigZag = forwardRef<CompositionHandle, CompositionProps>(
     );
   },
 );
+
+export const DigitalOrganism = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Digital Organism'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);
