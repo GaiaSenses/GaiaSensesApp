@@ -13,6 +13,7 @@ import {
   Rectangles,
   WeatherTree,
   ZigZag,
+  DigitalOrganism,
 } from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
@@ -60,6 +61,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.RECTANGLES]: Rectangles,
         [Composition.Names.WEATHER_TREE]: WeatherTree,
         [Composition.Names.ZIG_ZAG]: ZigZag,
+        [Composition.Names.DIGITAL_ORGANISM]: DigitalOrganism,
       };
       const Component = map[composition];
       return (
