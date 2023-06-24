@@ -3,8 +3,8 @@
  */
 
 import { useState, useEffect } from 'react';
-import GetLocation from 'react-native-get-location';
 import { weatherService } from '../services/weather';
+import useGeolocation from './useGeolocation';
 
 type Cache = { lightning: any; weather: any; fire: any };
 
@@ -15,33 +15,31 @@ const cache: Cache = {
 };
 
 export function useLightning() {
+  const { latitude, longitude } = useGeolocation();
   const [lightning, setLightning] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { latitude, longitude } = await GetLocation.getCurrentPosition({
-        enableHighAccuracy: false,
-        timeout: 1000,
-      });
+      if (latitude !== undefined && longitude !== undefined) {
+        const flashes = await weatherService.getLightningFlashes(
+          latitude,
+          longitude,
+        );
 
-      const flashes = await weatherService.getLightningFlashes(
-        latitude,
-        longitude,
-      );
-
-      cache['lightning'] = flashes;
-      setLightning(flashes);
+        cache.lightning = flashes;
+        setLightning(flashes);
+      }
     };
 
-    if (cache['lightning']) {
-      setLightning(cache['lightning']);
+    if (cache.lightning) {
+      setLightning(cache.lightning);
     } else {
       fetchData();
     }
-  }, [lightning]);
+  }, [lightning, latitude, longitude]);
 
   const refreshLightning = () => {
-    cache['lightning'] = null;
+    cache.lightning = null;
     setLightning({});
   };
 
@@ -49,30 +47,28 @@ export function useLightning() {
 }
 
 export function useWeather() {
+  const { latitude, longitude } = useGeolocation();
   const [weather, setWeather] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { latitude, longitude } = await GetLocation.getCurrentPosition({
-        enableHighAccuracy: false,
-        timeout: 1000,
-      });
+      if (latitude !== undefined && longitude !== undefined) {
+        const rainfall = await weatherService.getRainfall(latitude, longitude);
 
-      const rainfall = await weatherService.getRainfall(latitude, longitude);
-
-      cache['weather'] = rainfall;
-      setWeather(rainfall);
+        cache.weather = rainfall;
+        setWeather(rainfall);
+      }
     };
 
-    if (cache['weather']) {
-      setWeather(cache['weather']);
+    if (cache.weather) {
+      setWeather(cache.weather);
     } else {
       fetchData();
     }
-  }, [weather]);
+  }, [weather, latitude, longitude]);
 
   const refreshWeather = () => {
-    cache['weather'] = null;
+    cache.weather = null;
     setWeather(undefined);
   };
 
