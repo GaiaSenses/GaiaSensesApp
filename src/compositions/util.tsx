@@ -128,3 +128,18 @@ export const DigitalOrganism = forwardRef<CompositionHandle, CompositionProps>(
     );
   },
 );
+
+export const PaintBrush = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Paint Brush'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);

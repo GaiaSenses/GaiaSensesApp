@@ -13,6 +13,7 @@ export namespace Composition {
     WEATHER_TREE = 'Weather Tree',
     ZIG_ZAG = 'Zig Zag',
     DIGITAL_ORGANISM = 'Digital Organism',
+    PAINT_BRUSH = 'Paint Brush',
   }
 
   export const sources = {
@@ -42,6 +43,10 @@ export namespace Composition {
     },
     [Names.DIGITAL_ORGANISM]: {
       sketch: raw('./p5/digitalOrganism.js'),
+      patch: '',
+    },
+    [Names.PAINT_BRUSH]: {
+      sketch: raw('./p5/paintBrush.js'),
       patch: '',
     },
   };

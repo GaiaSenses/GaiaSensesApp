@@ -14,6 +14,7 @@ import {
   WeatherTree,
   ZigZag,
   DigitalOrganism,
+  PaintBrush,
 } from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
@@ -62,6 +63,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.WEATHER_TREE]: WeatherTree,
         [Composition.Names.ZIG_ZAG]: ZigZag,
         [Composition.Names.DIGITAL_ORGANISM]: DigitalOrganism,
+        [Composition.Names.PAINT_BRUSH]: PaintBrush,
       };
       const Component = map[composition];
       return (
