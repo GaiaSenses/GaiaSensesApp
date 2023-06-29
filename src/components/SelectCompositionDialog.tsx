@@ -71,6 +71,11 @@ const thumbnails: ItemInfo[] = [
     name: Composition.Names.DIGITAL_ORGANISM,
     source: require('../assets/digital-organism.png'),
   },
+  {
+    id: 7,
+    name: Composition.Names.PAINT_BRUSH,
+    source: require('../assets/paint-brush.png'),
+  },
 ];
 
 function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
