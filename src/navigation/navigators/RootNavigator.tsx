@@ -10,6 +10,7 @@ import { DrawerContent } from '../../components';
 import useAuth from '../../hooks/useAuth';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Login, Register } from '../screens';
+import { GeolocationProvider } from '../../contexts/GeolocationContext';
 
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -20,11 +21,13 @@ export function RootNavigator(): JSX.Element {
   return (
     <>
       {userData ? (
-        <Drawer.Navigator
-          drawerContent={(props) => <DrawerContent {...props} />}
-          screenOptions={{ headerShown: false }}>
-          <Drawer.Screen name="Root" component={AppStackNavigator} />
-        </Drawer.Navigator>
+        <GeolocationProvider>
+          <Drawer.Navigator
+            drawerContent={(props) => <DrawerContent {...props} />}
+            screenOptions={{ headerShown: false }}>
+            <Drawer.Screen name="Root" component={AppStackNavigator} />
+          </Drawer.Navigator>
+        </GeolocationProvider>
       ) : (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={Login} />
