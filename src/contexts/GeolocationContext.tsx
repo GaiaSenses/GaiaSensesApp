@@ -24,11 +24,15 @@ export function GeolocationProvider({ children }: GeolocationProviderProps) {
 
   useEffect(() => {
     const getPosition = async () => {
-      const { latitude, longitude } = await GetLocation.getCurrentPosition({
-        enableHighAccuracy: false,
-        timeout: 1000,
-      });
-      setLocation({ latitude, longitude });
+      try {
+        const { latitude, longitude } = await GetLocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          timeout: 3000,
+        });
+        setLocation({ latitude, longitude });
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     getPosition();
