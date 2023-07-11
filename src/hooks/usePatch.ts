@@ -10,7 +10,7 @@ export type Patch = {
   id: number;
   start: (options?: Partial<AudioOptions>) => void;
   stop: () => void;
-  send: (sym: string, val: number) => void;
+  send: (sym: string, val?: number) => void;
 };
 
 export default function usePatch(source: string) {
@@ -54,8 +54,12 @@ export default function usePatch(source: string) {
     PureData.stopAudio();
   };
 
-  const send = (sym: string, val: number) => {
-    PureData.send(sym, val);
+  const send = (sym: string, val?: number) => {
+    if (val !== undefined) {
+      PureData.send(sym, val);
+    } else {
+      PureData.sendBang(sym);
+    }
   };
 
   const patch = { id: patchId.current, start, stop, send } as Patch;

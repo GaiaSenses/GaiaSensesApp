@@ -1,0 +1,17 @@
+#N canvas 0 28 1440 872 12;
+#X obj 162 59 inlet~;
+#X obj 162 82 bob~, f 19;
+#X msg 57 64 oversample 5;
+#X obj 20 31 loadbang;
+#X obj 227 59 inlet~;
+#X obj 292 59 inlet~;
+#X msg 20 64 0;
+#X obj 162 105 outlet~;
+#X connect 0 0 1 0;
+#X connect 1 0 7 0;
+#X connect 2 0 1 0;
+#X connect 3 0 2 0;
+#X connect 3 0 6 0;
+#X connect 4 0 1 1;
+#X connect 5 0 1 2;
+#X connect 6 0 1 2;

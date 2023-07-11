@@ -1,0 +1,18 @@
+#N canvas 0 28 1440 872 12;
+#X obj 132 90 r bangJava;
+#X obj 132 113 random 5;
+#X obj 132 136 expr 50 * ($f1 + 1);
+#X obj 132 159 osc~;
+#X obj 132 205 outlet~;
+#X obj 274 118 r bangJava;
+#X obj 132 182 *~;
+#X obj 274 164 line~;
+#X msg 274 141 0.1 100;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 6 0;
+#X connect 5 0 8 0;
+#X connect 6 0 4 0;
+#X connect 7 0 6 1;
+#X connect 8 0 7 0;

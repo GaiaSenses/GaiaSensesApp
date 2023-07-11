@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.AssetManager;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -16,12 +17,18 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 
+import org.puredata.android.io.PdAudio;
 import org.puredata.android.service.PdService;
 import org.puredata.core.PdBase;
+import org.puredata.core.PdBaseLoader;
+import org.puredata.core.PdListener;
+import org.puredata.core.PdReceiver;
 import org.puredata.core.utils.IoUtils;
+import org.puredata.core.utils.PdDispatcher;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -37,11 +44,44 @@ public class PureDataModule extends ReactContextBaseJavaModule implements Lifecy
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             pdService = ((PdService.PdBinder) iBinder).getService();
             Log.i(TAG, "service connected");
+            loadLibraries();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
             // never called
+        }
+    };
+
+    private final PdReceiver receiver = new PdReceiver() {
+        @Override
+        public void print(String s) {
+            Log.d(TAG, "Receiver Print: " + s);
+        }
+
+        @Override
+        public void receiveBang(String source) {
+
+        }
+
+        @Override
+        public void receiveFloat(String source, float x) {
+
+        }
+
+        @Override
+        public void receiveSymbol(String source, String symbol) {
+
+        }
+
+        @Override
+        public void receiveList(String source, Object... args) {
+
+        }
+
+        @Override
+        public void receiveMessage(String source, String symbol, Object... args) {
+
         }
     };
 
@@ -88,6 +128,20 @@ public class PureDataModule extends ReactContextBaseJavaModule implements Lifecy
         }
     }
 
+    private void loadLibraries() {
+        ReactApplicationContext context = getReactApplicationContext();
+        AssetManager assetManager = context.getAssets();
+
+        try {
+            File dest = context.getFilesDir();
+            IoUtils.extractZipResource(assetManager.open("pd/patches.zip"), dest, true);
+            PdBase.addToSearchPath(dest.getAbsolutePath());
+            Log.i(TAG, "patches extracted");
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to load assets");
+        }
+    }
+
     @ReactMethod
     public void loadPatch(String patchSource, Promise promise) {
         if (pdService == null) {
@@ -103,6 +157,8 @@ public class PureDataModule extends ReactContextBaseJavaModule implements Lifecy
             patch = IoUtils.extractResource(stream, "patch.pd", context.getCacheDir());
 
             int patchId = PdBase.openPatch(patch);
+            PdBase.setReceiver(receiver);
+            Log.d(TAG, "PatchID = " + patchId);
             promise.resolve(patchId);
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
@@ -146,5 +202,11 @@ public class PureDataModule extends ReactContextBaseJavaModule implements Lifecy
     @ReactMethod
     public void send(String symbol, double value) {
         PdBase.sendFloat(symbol, (float) value);
+    }
+
+    @ReactMethod
+    public void sendBang(String symbol) {
+        Log.d(TAG, "SendBang to symbol '" + symbol + "'");
+        PdBase.sendBang(symbol);
     }
 }

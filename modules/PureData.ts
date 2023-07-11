@@ -16,6 +16,7 @@ export interface IPureDataModule {
   stopAudio(): void;
   destroyAudio(): void;
   send(symbol: string, value: number): void;
+  sendBang(symbol: string): void;
 }
 
 const { PureDataModule } = NativeModules;
