@@ -14,6 +14,8 @@ export namespace Composition {
     ZIG_ZAG = 'Zig Zag',
     DIGITAL_ORGANISM = 'Digital Organism',
     PAINT_BRUSH = 'Paint Brush',
+    STORM_EYE = 'Storm Eye',
+    COLOR_FLOWER = 'Color Flower',
   }
 
   export const sources = {
@@ -47,6 +49,14 @@ export namespace Composition {
     },
     [Names.PAINT_BRUSH]: {
       sketch: raw('./p5/paintBrush.js'),
+      patch: '',
+    },
+    [Names.STORM_EYE]: {
+      sketch: raw('./p5/stormEye.js'),
+      patch: '',
+    },
+    [Names.COLOR_FLOWER]: {
+      sketch: raw('./p5/colorFlower.js'),
       patch: '',
     },
   };

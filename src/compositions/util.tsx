@@ -143,3 +143,33 @@ export const PaintBrush = forwardRef<CompositionHandle, CompositionProps>(
     );
   },
 );
+
+export const StormEye = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Storm Eye'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);
+
+export const ColorFlower = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Color Flower'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);
