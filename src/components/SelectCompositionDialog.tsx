@@ -76,6 +76,16 @@ const thumbnails: ItemInfo[] = [
     name: Composition.Names.PAINT_BRUSH,
     source: require('../assets/paint-brush.png'),
   },
+  {
+    id: 8,
+    name: Composition.Names.STORM_EYE,
+    source: require('../assets/storm-eye.png'),
+  },
+  {
+    id: 9,
+    name: Composition.Names.COLOR_FLOWER,
+    source: require('../assets/color-flower.png'),
+  },
 ];
 
 function Item({ item, selected, onSelect }: ItemProps): JSX.Element {

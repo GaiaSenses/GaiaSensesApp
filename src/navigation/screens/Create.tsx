@@ -15,6 +15,9 @@ import {
   ZigZag,
   DigitalOrganism,
   PaintBrush,
+  StormEye,
+  ColorFlower,
+
 } from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
@@ -64,6 +67,9 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.ZIG_ZAG]: ZigZag,
         [Composition.Names.DIGITAL_ORGANISM]: DigitalOrganism,
         [Composition.Names.PAINT_BRUSH]: PaintBrush,
+        [Composition.Names.STORM_EYE]: StormEye,
+        [Composition.Names.COLOR_FLOWER]: ColorFlower,
+
       };
       const Component = map[composition];
       return (
