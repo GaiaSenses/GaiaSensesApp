@@ -44,7 +44,7 @@ export namespace Composition {
     },
     [Names.ZIG_ZAG]: {
       sketch: raw('./p5/zigzag.js'),
-      patch: '',
+      patch: raw('./pd/zigzag02.pd'),
     },
     [Names.DIGITAL_ORGANISM]: {
       sketch: raw('./p5/digitalOrganism.js'),

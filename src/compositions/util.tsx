@@ -104,11 +104,16 @@ export const ZigZag = forwardRef<CompositionHandle, CompositionProps>(
   (props, ref) => {
     const { sketch, patch: patchSource } = Composition.sources['Zig Zag'];
 
+    const handlePlay = (patch: Patch) => {
+      patch.start();
+    };
+
     return (
       <CompositionView
         ref={ref}
         sketch={sketch}
         patchSource={patchSource}
+        onPlay={handlePlay}
         {...props}
       />
     );
