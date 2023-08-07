@@ -173,3 +173,18 @@ export const ColorFlower = forwardRef<CompositionHandle, CompositionProps>(
     );
   },
 );
+
+export const CloudBubble = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Cloud Bubble'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);

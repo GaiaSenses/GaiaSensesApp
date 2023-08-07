@@ -17,7 +17,7 @@ import {
   PaintBrush,
   StormEye,
   ColorFlower,
-
+  CloudBubble,
 } from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
@@ -69,7 +69,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.PAINT_BRUSH]: PaintBrush,
         [Composition.Names.STORM_EYE]: StormEye,
         [Composition.Names.COLOR_FLOWER]: ColorFlower,
-
+        [Composition.Names.CLOUD_BUBBLE]: CloudBubble,
       };
       const Component = map[composition];
       return (

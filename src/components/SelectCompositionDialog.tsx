@@ -86,6 +86,11 @@ const thumbnails: ItemInfo[] = [
     name: Composition.Names.COLOR_FLOWER,
     source: require('../assets/color-flower.png'),
   },
+  {
+    id: 10,
+    name: Composition.Names.CLOUD_BUBBLE,
+    source: require('../assets/cloud-bubble.png'),
+  },
 ];
 
 function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
