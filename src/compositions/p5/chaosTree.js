@@ -11,7 +11,7 @@ class Particle {
 
 const [width, height] = [innerWidth, innerHeight];
 let particles = [];
-let image = '../assets/chaos-tree.png';
+let imageUrl = `https://picsum.photos/${width}/${height}`;
 let img = null;
 
 function isInsideCanvas(x, y) {
@@ -29,7 +29,7 @@ function overlap(x1, y1, diam1, x2, y2, diam2) {
 }
 
 function preload() {
-  img = loadImage(image);
+  img = loadImage(imageUrl);
 }
 
 function setup() {

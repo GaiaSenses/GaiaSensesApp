@@ -1,7 +1,6 @@
 // inspired by: https://openprocessing.org/sketch/1786759
 
 const { weather } = window.App;
-let description = weather?.weather?.description;
 let clouds = weather?.clouds;
 let cloudsColor1 = 0;
 let cloudsColor2 = 256;
@@ -11,28 +10,24 @@ setup = () => {
 };
 
 draw = () => {
-  if (description == 'céu limpo') {
+  if (clouds <= 5) {
+    clouds = 5;
     background('#75c2f6');
     cloudsColor1 = 192;
     cloudsColor2 = 256;
-  } else if (description == 'algumas nuvens') {
+  } else if (clouds > 5 && clouds <= 20) {
     background('#93b5c6');
     cloudsColor1 = 128;
     cloudsColor2 = 192;
-  } else if (description = 'nuvens dispersas') {
+  } else if (clouds > 20 && clouds <= 50) {
     background('#c9ccd5');
     cloudsColor1 = 64;
     cloudsColor2 = 128;
-  } else if (description == 'nublado') {
-    background('#75c2f6');
+  } else if (clouds > 50) {
+    clouds = 50;
+    background('#aaaaaa');
     cloudsColor1 = 0;
     cloudsColor2 = 64;
-  }
-
-  if (clouds >= 50) {
-    clouds = 50;
-  } else if (clouds <= 5) {
-    clouds = 5;
   }
 
   system.avoidOverlap();
