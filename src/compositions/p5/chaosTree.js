@@ -11,7 +11,12 @@ class Particle {
   
   const [width, height] = [innerWidth, innerHeight];
   let particles = [];
-  let imageUrl = `https://i.postimg.cc/25583Gf1/chaos-tree.png`;
+  let imgUrls = [
+	"https://i.postimg.cc/Fs3hS5Bh/ipe1.jpg",
+	"https://i.postimg.cc/W3HvyKj3/ipe2.jpg",
+	"https://i.postimg.cc/1ttSJSk2/ipe3.jpg",
+	"https://i.postimg.cc/MHfSJDKY/ipe4.jpg"
+  ];
   let img = null;
   
   function isInsideCanvas(x, y) {
@@ -29,7 +34,8 @@ class Particle {
   }
   
   function preload() {
-	img = loadImage(imageUrl);
+	const randomIndex = Math.floor(Math.random() * imgUrls.length);
+	img = loadImage(imgUrls[randomIndex]);
   }
   
   function setup() {
