@@ -146,6 +146,29 @@ android {
 
         }
     }
+
+    sourceSets.main.jni.srcDirs = []
+    sourceSets.main.jniLibs.srcDir 'src/main/libs'
+
+    tasks.create(name: 'buildNative', type: Exec, description: 'Compile JNI source via NDK') {
+        commandLine ndkBuildExecutablePath,
+                '-C', file('src/main/jni').absolutePath,
+                '-j', Runtime.runtime.availableProcessors(),
+                'all',
+                'NDK_DEBUG=1'
+    }
+
+    tasks.create(name: 'cleanNative', type: Exec, description: 'Clean JNI object files') {
+        commandLine ndkBuildExecutablePath, '-C', file('src/main/jni').absolutePath, 'clean'
+    }
+
+    clean.configure {
+        dependsOn tasks.named('cleanNative')
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        dependsOn tasks.named('buildNative')
+    }
 }
 
 dependencies {
@@ -166,8 +189,22 @@ dependencies {
         implementation jscFlavor
     }
 
-    implementation("io.github.libpd.android:pd-core:1.2.1-rc6")
+    //implementation("io.github.libpd.android:pd-core:1.2.1-rc6")
+    implementation project(':PdCore')
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+import org.apache.tools.ant.taskdefs.condition.Os
+
+def getNdkBuildExecutablePath() {
+    // android.ndkDirectory should return project.android.ndkVersion ndkDirectory
+    def ndkDir = android.ndkDirectory.absolutePath
+    def ndkBuildName = Os.isFamily(Os.FAMILY_WINDOWS) ? 'ndk-build.cmd' : 'ndk-build'
+    def ndkBuildFullPath = new File(ndkDir, ndkBuildName).getAbsolutePath()
+    if (!new File(ndkBuildFullPath).canExecute()) {
+        throw new GradleScriptException("ndk-build executable not found: $ndkBuildFullPath")
+    }
+    return ndkBuildFullPath
+}

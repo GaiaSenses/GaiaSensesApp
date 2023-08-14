@@ -33,6 +33,9 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+android/app/src/main/assets/
+android/**/src/main/libs/
+android/**/src/main/obj/
 
 # node.js
 #

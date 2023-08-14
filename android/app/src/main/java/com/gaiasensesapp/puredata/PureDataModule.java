@@ -136,6 +136,7 @@ public class PureDataModule extends ReactContextBaseJavaModule implements Lifecy
             File dest = context.getFilesDir();
             IoUtils.extractZipResource(assetManager.open("pd/patches.zip"), dest, true);
             PdBase.addToSearchPath(dest.getAbsolutePath());
+            PdBase.addToSearchPath(dest.getAbsolutePath() + "/gaiaSensesLib");
             Log.i(TAG, "patches extracted");
         } catch (IOException e) {
             Log.e(TAG, "Failed to load assets");
