@@ -10,24 +10,32 @@ setup = () => {
 };
 
 draw = () => {
-  if (clouds <= 5) {
-    clouds = 5;
-    background('#75c2f6');
-    cloudsColor1 = 192;
-    cloudsColor2 = 256;
-  } else if (clouds > 5 && clouds <= 20) {
-    background('#93b5c6');
-    cloudsColor1 = 128;
-    cloudsColor2 = 192;
-  } else if (clouds > 20 && clouds <= 50) {
-    background('#c9ccd5');
-    cloudsColor1 = 64;
-    cloudsColor2 = 128;
-  } else if (clouds > 50) {
-    clouds = 50;
-    background('#aaaaaa');
-    cloudsColor1 = 0;
-    cloudsColor2 = 64;
+  switch (true) {
+    case clouds <= 5:
+      clouds = 5;
+      background('#75c2f6');
+      cloudsColor1 = 192;
+      cloudsColor2 = 256;
+      break;
+
+    case clouds > 5 && clouds <= 20:
+      background('#93b5c6');
+      cloudsColor1 = 128;
+      cloudsColor2 = 192;
+      break;
+
+    case clouds > 20 && clouds <= 50:
+      background('#c9ccd5');
+      cloudsColor1 = 64;
+      cloudsColor2 = 128;
+      break;
+
+    case clouds > 50:
+      clouds = 50;
+      background('#aaaaaa');
+      cloudsColor1 = 0;
+      cloudsColor2 = 64;
+      break;
   }
 
   system.avoidOverlap();

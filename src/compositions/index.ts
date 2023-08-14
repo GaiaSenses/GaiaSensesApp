@@ -17,6 +17,7 @@ export namespace Composition {
     STORM_EYE = 'Storm Eye',
     COLOR_FLOWER = 'Color Flower',
     CLOUD_BUBBLE = 'Cloud Bubble',
+    BONFIRE = 'Bonfire',
   }
 
   export const sources = {
@@ -62,6 +63,10 @@ export namespace Composition {
     },
     [Names.CLOUD_BUBBLE]: {
       sketch: raw('./p5/cloudBubble.js'),
+      patch: '',
+    },
+    [Names.BONFIRE]: {
+      sketch: raw('./p5/bonfire.js'),
       patch: '',
     },
   };

@@ -91,6 +91,11 @@ const thumbnails: ItemInfo[] = [
     name: Composition.Names.CLOUD_BUBBLE,
     source: require('../assets/cloud-bubble.png'),
   },
+  {
+    id: 11,
+    name: Composition.Names.BONFIRE,
+    source: require('../assets/bonfire.png'),
+  },
 ];
 
 function Item({ item, selected, onSelect }: ItemProps): JSX.Element {

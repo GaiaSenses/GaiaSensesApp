@@ -18,6 +18,7 @@ import {
   StormEye,
   ColorFlower,
   CloudBubble,
+  Bonfire,
 } from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
@@ -70,6 +71,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.STORM_EYE]: StormEye,
         [Composition.Names.COLOR_FLOWER]: ColorFlower,
         [Composition.Names.CLOUD_BUBBLE]: CloudBubble,
+        [Composition.Names.BONFIRE]: Bonfire,
       };
       const Component = map[composition];
       return (
