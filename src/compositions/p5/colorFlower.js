@@ -74,17 +74,28 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   flowers.push(new flower(frameCount));
 
-  if (temperature <= 10) {
-    petalColors = petalColorsFreezing;
-  } else if (temperature > 10 && temperature <= 19) {
-    petalColors = petalColorsCold;
-  } else if (temperature > 19 && temperature <= 25) {
-    petalColors = petalColorsWarm;
-  } else if (temperature > 25 && temperature <= 30) {
-    petalColors = petalColorsHot;
-  } else if (temperature > 30) {
-    petalColors = petalColorsBurning;
+  switch (true) {
+    case temperature <= 10:
+      petalColors = petalColorsFreezing;
+      break;
+  
+    case temperature > 10 && temperature <= 19:
+      petalColors = petalColorsCold;
+      break;
+  
+    case temperature > 19 && temperature <= 25:
+      petalColors = petalColorsWarm;
+      break;
+  
+    case temperature > 25 && temperature <= 30:
+      petalColors = petalColorsHot;
+      break;
+  
+    case temperature > 30:
+      petalColors = petalColorsBurning;
+      break;
   }
+  
 }
 
 function draw() {

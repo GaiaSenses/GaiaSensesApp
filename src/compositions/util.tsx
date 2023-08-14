@@ -116,7 +116,8 @@ export const ZigZag = forwardRef<CompositionHandle, CompositionProps>(
 
 export const DigitalOrganism = forwardRef<CompositionHandle, CompositionProps>(
   (props, ref) => {
-    const { sketch, patch: patchSource } = Composition.sources['Digital Organism'];
+    const { sketch, patch: patchSource } =
+      Composition.sources['Digital Organism'];
 
     return (
       <CompositionView
@@ -162,6 +163,36 @@ export const StormEye = forwardRef<CompositionHandle, CompositionProps>(
 export const ColorFlower = forwardRef<CompositionHandle, CompositionProps>(
   (props, ref) => {
     const { sketch, patch: patchSource } = Composition.sources['Color Flower'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);
+
+export const CloudBubble = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Cloud Bubble'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);
+
+export const Bonfire = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Bonfire'];
 
     return (
       <CompositionView
