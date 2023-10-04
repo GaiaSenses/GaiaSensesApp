@@ -19,6 +19,7 @@ import {
   ColorFlower,
   CloudBubble,
   Bonfire,
+  LightningTrees,
 } from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
@@ -72,6 +73,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.COLOR_FLOWER]: ColorFlower,
         [Composition.Names.CLOUD_BUBBLE]: CloudBubble,
         [Composition.Names.BONFIRE]: Bonfire,
+        [Composition.Names.LIGHTNING_TREES]: LightningTrees,
       };
       const Component = map[composition];
       return (

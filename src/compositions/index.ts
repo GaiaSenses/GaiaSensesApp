@@ -18,6 +18,7 @@ export namespace Composition {
     COLOR_FLOWER = 'Color Flower',
     CLOUD_BUBBLE = 'Cloud Bubble',
     BONFIRE = 'Bonfire',
+    LIGHTNING_TREES = 'Lightning Trees'
   }
 
   export const sources = {
@@ -67,6 +68,10 @@ export namespace Composition {
     },
     [Names.BONFIRE]: {
       sketch: raw('./p5/bonfire.js'),
+      patch: '',
+    },
+    [Names.LIGHTNING_TREES]: {
+      sketch: raw('./p5/lightningTrees.js'),
       patch: '',
     },
   };
