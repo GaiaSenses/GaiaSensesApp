@@ -76,4 +76,33 @@ export function useWeather() {
 }
 
 export function useFire() {
+  const { latitude, longitude } = useGeolocation();
+  const [fire, setFire] = useState<any>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (latitude !== undefined && longitude !== undefined) {
+        const hotspots = await weatherService.getFireHotspots(
+          latitude,
+          longitude,
+        );
+
+        cache.fire = hotspots;
+        setFire(hotspots);
+      }
+    };
+
+    if (cache.fire) {
+      setFire(cache.fire);
+    } else {
+      fetchData();
+    }
+  }, [fire, latitude, longitude]);
+
+  const refreshFire = () => {
+    cache.fire = null;
+    setFire(undefined);
+  };
+
+  return { fire, refreshFire };
 }

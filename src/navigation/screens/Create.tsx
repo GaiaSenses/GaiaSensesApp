@@ -58,7 +58,6 @@ export function Create({ navigation }: CreateProps): JSX.Element {
     ref.current?.setVariable('weather', weather);
     ref.current?.setVariable('lightning', lightning);
     ref.current?.setVariable('fire', fire);
-
   };
 
   const CompostionWrapper = useCallback(

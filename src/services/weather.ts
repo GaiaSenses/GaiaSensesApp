@@ -9,7 +9,7 @@ export const weatherService = {
     const res = await weatherClient.get('/rainfall', { params: { lat, lon } });
     return res.data;
   },
-  getFireSpots: async (lat: number, lon: number) => {
+  getFireHotspots: async (lat: number, lon: number) => {
     const res = await weatherClient.get('/fire', { params: { lat, lon } });
     return res.data;
   },
