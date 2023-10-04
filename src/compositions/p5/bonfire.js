@@ -1,6 +1,13 @@
 // creator: Pedro Trama
 
+const { fire } = window.App;
+let wildFireCount = fire.count;
+
 let particles = [];
+let nParticles = wildFireCount;
+let red;
+let green;
+let blue;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -8,20 +15,39 @@ function setup() {
 
 function draw() {
   background(0);
-
-  //creates new particles
-  for (let i = 0; i < 5; i++) {
+	
+	//colors and number of particles
+	if(wildFireCount == 0){
+		nParticles = 3;
+		red = 0;
+		green = 255
+		blue = floor(random(0, 255));
+	}
+	else if (nParticles >=1 && nParticles <=19){
+		red = 255;
+		green = floor(random(0, 255));
+		blue = 0;
+	}
+	else if(nParticles >= 20){
+		nParticles = 20;
+		red = 255;
+		green = floor(random(0, 255));
+		blue = 0;
+	}
+  
+	//creates new particles
+  for (let i = 0; i < nParticles; i++) {
     particles.push(new Particle());
   }
-
-  //moves, shrinks and changes particle's colors
+	
+	//moves, shrinks and changes particle's colors
   for (let particle of particles) {
     particle.update();
     particle.display();
   }
-
-  //removes particles that are too high
-  for (let i = particles.length - 1; i >= 0; i--) {
+  
+	//removes particles that are too high
+	for (let i = particles.length - 1; i >= 0; i--) {
     if (particles[i].isFinished()) {
       particles.splice(i, 1);
     }
@@ -33,10 +59,10 @@ class Particle {
     this.x = random(width);
     this.y = height;
     this.radius = floor(random(10, 30));
-    this.red = 255;
-    this.green = floor(random(0, 255));
-    this.blue = 0;
-    this.alpha = random(100, 500);
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+		this.alpha = random(100,500);
   }
 
   update() {

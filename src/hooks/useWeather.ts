@@ -74,3 +74,6 @@ export function useWeather() {
 
   return { weather, refreshWeather };
 }
+
+export function useFire() {
+}
