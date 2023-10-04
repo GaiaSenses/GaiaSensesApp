@@ -96,6 +96,12 @@ const thumbnails: ItemInfo[] = [
     name: Composition.Names.BONFIRE,
     source: require('../assets/bonfire.png'),
   },
+  {
+    id: 12,
+    name: Composition.Names.LIGHTNING_TREES,
+    source: require('../assets/lightning-trees.png'),
+  },
+  
 ];
 
 function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
