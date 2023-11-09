@@ -101,6 +101,12 @@ const thumbnails: ItemInfo[] = [
     name: Composition.Names.LIGHTNING_TREES,
     source: require('../assets/lightning-trees.png'),
   },
+
+  {
+  id: 13,
+  name: Composition.Names.CALM_POND,
+  source: require('../assets/calm-pond.png'),
+  },
   
 ];
 
