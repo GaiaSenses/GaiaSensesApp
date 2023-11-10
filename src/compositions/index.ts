@@ -18,7 +18,7 @@ export namespace Composition {
     COLOR_FLOWER = 'Color Flower',
     CLOUD_BUBBLE = 'Cloud Bubble',
     BONFIRE = 'Bonfire',
-    LIGHTNING_TREES = 'Lightning Trees'
+    LIGHTNING_TREES = 'Lightning Trees',
   }
 
   export const sources = {
@@ -44,7 +44,7 @@ export namespace Composition {
     },
     [Names.ZIG_ZAG]: {
       sketch: raw('./p5/zigzag.js'),
-      patch: raw('./pd/zigzag02.pd'),
+      patch: '',
     },
     [Names.DIGITAL_ORGANISM]: {
       sketch: raw('./p5/digitalOrganism.js'),
@@ -60,7 +60,7 @@ export namespace Composition {
     },
     [Names.COLOR_FLOWER]: {
       sketch: raw('./p5/colorFlower.js'),
-      patch: '',
+      patch: raw('./pd/colorFlower02.pd'),
     },
     [Names.CLOUD_BUBBLE]: {
       sketch: raw('./p5/cloudBubble.js'),

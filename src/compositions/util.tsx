@@ -104,16 +104,11 @@ export const ZigZag = forwardRef<CompositionHandle, CompositionProps>(
   (props, ref) => {
     const { sketch, patch: patchSource } = Composition.sources['Zig Zag'];
 
-    const handlePlay = (patch: Patch) => {
-      patch.start();
-    };
-
     return (
       <CompositionView
         ref={ref}
         sketch={sketch}
         patchSource={patchSource}
-        onPlay={handlePlay}
         {...props}
       />
     );
@@ -169,12 +164,24 @@ export const StormEye = forwardRef<CompositionHandle, CompositionProps>(
 export const ColorFlower = forwardRef<CompositionHandle, CompositionProps>(
   (props, ref) => {
     const { sketch, patch: patchSource } = Composition.sources['Color Flower'];
+    const { weather } = props;
+
+    const { temp, humidity } = weather.main;
+    const { speed } = weather.wind;
+
+    const handlePlay = (patch: Patch) => {
+      patch.start({ outChannels: 2 });
+      patch.send(`temperatura_${patch.id}`, temp);
+      patch.send(`umidade_${patch.id}`, humidity / 100);
+      patch.send(`vento_${patch.id}`, speed);
+    };
 
     return (
       <CompositionView
         ref={ref}
         sketch={sketch}
         patchSource={patchSource}
+        onPlay={handlePlay}
         {...props}
       />
     );
