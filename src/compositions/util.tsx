@@ -220,18 +220,3 @@ export const LightningTrees = forwardRef<CompositionHandle, CompositionProps>(
     );
   },
 );
-
-export const CalmPond = forwardRef<CompositionHandle, CompositionProps>(
-  (props, ref) => {
-    const { sketch, patch: patchSource } = Composition.sources['Calm Pond'];
-
-    return (
-      <CompositionView
-        ref={ref}
-        sketch={sketch}
-        patchSource={patchSource}
-        {...props}
-      />
-    );
-  },
-);
