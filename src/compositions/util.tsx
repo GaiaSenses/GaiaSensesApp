@@ -220,3 +220,18 @@ export const LightningTrees = forwardRef<CompositionHandle, CompositionProps>(
     );
   },
 );
+
+export const SnowTrail = forwardRef<CompositionHandle, CompositionProps>(
+  (props, ref) => {
+    const { sketch, patch: patchSource } = Composition.sources['Snow Trail'];
+
+    return (
+      <CompositionView
+        ref={ref}
+        sketch={sketch}
+        patchSource={patchSource}
+        {...props}
+      />
+    );
+  },
+);

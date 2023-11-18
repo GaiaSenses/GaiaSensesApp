@@ -20,6 +20,8 @@ import {
   CloudBubble,
   Bonfire,
   LightningTrees,
+  SnowTrail,
+
 } from '../../compositions';
 import { Containers } from '../../styles/containers';
 import { Spacing, Typography } from '../../styles';
@@ -76,6 +78,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
         [Composition.Names.CLOUD_BUBBLE]: CloudBubble,
         [Composition.Names.BONFIRE]: Bonfire,
         [Composition.Names.LIGHTNING_TREES]: LightningTrees,
+        [Composition.Names.SNOW_TRAIL]: SnowTrail,
       };
       const Component = map[composition];
       return (
