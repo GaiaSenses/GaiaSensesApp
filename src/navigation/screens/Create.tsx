@@ -26,7 +26,12 @@ import { Spacing, Typography } from '../../styles';
 import { Button, IconButton } from 'react-native-paper';
 import { CompositionHandle, SelectCompositionDialog } from '../../components';
 import { AppTabScreenProps } from '../types';
-import { useLightning, useWeather, useFire } from '../../hooks/useWeather';
+import {
+  useLightning,
+  useWeather,
+  useFire,
+  useBrightnessTemperature,
+} from '../../hooks/useWeather';
 
 type CreateProps = AppTabScreenProps<'Create'>;
 
@@ -39,6 +44,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
   const { weather } = useWeather();
   const { lightning } = useLightning();
   const { fire } = useFire();
+  const { brightness } = useBrightnessTemperature();
 
   const handleSelect = (name: Composition.Names) => {
     setComposition(name);
@@ -58,6 +64,7 @@ export function Create({ navigation }: CreateProps): JSX.Element {
     ref.current?.setVariable('weather', weather);
     ref.current?.setVariable('lightning', lightning);
     ref.current?.setVariable('fire', fire);
+    ref.current?.setVariable('brightness', brightness);
   };
 
   const CompostionWrapper = useCallback(
@@ -84,11 +91,12 @@ export function Create({ navigation }: CreateProps): JSX.Element {
           weather={weather}
           lightning={lightning}
           fire={fire}
+          brightness={brightness}
           {...props}
         />
       );
     },
-    [composition, lightning, weather, fire],
+    [composition, lightning, weather, fire, brightness],
   );
 
   return (
