@@ -9,7 +9,7 @@ let g;
 let brushSize;
 
 const { weather } = window.App;
-const rain = weather.rain['1h'] || 0;
+const rain = weather?.rain['1h'] || 0;
 
 brushSize = (rain + 3) * 3;
 

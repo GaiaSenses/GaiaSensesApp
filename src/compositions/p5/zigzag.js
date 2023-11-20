@@ -12,8 +12,8 @@ const CRITICAL_LIGHTNING = 10;
 const [width, height] = [innerWidth, innerHeight];
 const { weather, lightning } = window.App;
 
-const rain = weather.rain['1h'] || 0;
-const lightningCount = lightning.count;
+const rain = weather?.rain['1h'] || 0;
+const lightningCount = lightning?.count || 0;
 let fps = 0;
 
 const colors = ['#af0f0f', '#feb30f', '#0aa4f7', '#000000', '#ffffff'];

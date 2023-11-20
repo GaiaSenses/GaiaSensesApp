@@ -1,7 +1,7 @@
 // creator: Pedro Trama
 
 const { fire } = window.App;
-let wildFireCount = fire.count;
+let wildFireCount = fire?.count || 0;
 
 let particles = [];
 let nParticles = wildFireCount;
@@ -15,7 +15,7 @@ function setup() {
 
 function draw() {
   background(0);
-	
+
 	//colors and number of particles
 	if(wildFireCount == 0){
 		nParticles = 3;
@@ -34,18 +34,18 @@ function draw() {
 		green = floor(random(0, 255));
 		blue = 0;
 	}
-  
+
 	//creates new particles
   for (let i = 0; i < nParticles; i++) {
     particles.push(new Particle());
   }
-	
+
 	//moves, shrinks and changes particle's colors
   for (let particle of particles) {
     particle.update();
     particle.display();
   }
-  
+
 	//removes particles that are too high
 	for (let i = particles.length - 1; i >= 0; i--) {
     if (particles[i].isFinished()) {

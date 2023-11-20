@@ -1,7 +1,7 @@
 // inspired by: https://openprocessing.org/sketch/1203202
 
 const { lightning } = window.App;
-const lightningCount = lightning?.count;
+const lightningCount = lightning?.count || 0;
 
 let colors = ['#793FDF', '#5800FF', '#2FA4FF', '#72FFFF'];
 
