@@ -11,7 +11,7 @@ const FPS_MAX = 20;
 const [w, h] = [innerWidth, innerHeight];
 const { weather } = window.App;
 
-const rain = weather.rain['1h'] || 0;
+const rain = weather?.rain['1h'] || 0;
 let ellipseSize = 0;
 let fps = 0;
 

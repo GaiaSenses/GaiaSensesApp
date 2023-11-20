@@ -9,8 +9,8 @@ const CRITICAL_TEMP = 35;
 const [width, height] = [innerWidth, innerHeight];
 const { weather } = window.App;
 
-const rainMili = weather.rain['1h'] || 0;
-const temperature = weather.main.temp || 20;
+const rainMili = weather?.rain['1h'] || 0;
+const temperature = weather?.main.temp || 20;
 
 function setup() {
   createCanvas(width, height);
