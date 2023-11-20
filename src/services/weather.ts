@@ -4,7 +4,7 @@
 
 import { weatherClient } from './lib/client';
 
-type RainfallResponse = {
+export type RainfallResponse = {
   city: string;
   state: string;
   lat: number;
@@ -38,7 +38,7 @@ type RainfallResponse = {
   visibility: number;
 };
 
-type FireResponse = {
+export type FireResponse = {
   city: string;
   state: string;
   count: number;
@@ -49,7 +49,7 @@ type FireResponse = {
   }>;
 };
 
-type LightningResponse = {
+export type LightningResponse = {
   city: string;
   state: string;
   count: number;
@@ -58,6 +58,12 @@ type LightningResponse = {
     lon: number;
     dist: number;
   }>;
+};
+
+export type BrightnessTemperatureResponse = {
+  city: string;
+  state: string;
+  temp: number;
 };
 
 export const weatherService = {
@@ -77,6 +83,15 @@ export const weatherService = {
     const res = await weatherClient.get<LightningResponse>('/lightning', {
       params: { lat, lon },
     });
+    return res.data;
+  },
+  getBrightnessTemperature: async (lat: number, lon: number) => {
+    const res = await weatherClient.get<BrightnessTemperatureResponse>(
+      '/brightness',
+      {
+        params: { lat, lon },
+      },
+    );
     return res.data;
   },
 };

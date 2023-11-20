@@ -3,31 +3,43 @@
  */
 
 import { useState, useEffect } from 'react';
-import { weatherService } from '../services/weather';
+import {
+  BrightnessTemperatureResponse,
+  FireResponse,
+  LightningResponse,
+  RainfallResponse,
+  weatherService,
+} from '../services/weather';
 import useGeolocation from './useGeolocation';
 
-type Cache = { lightning: any; weather: any; fire: any };
+type Cache = {
+  lightning: LightningResponse | null;
+  weather: RainfallResponse | null;
+  fire: FireResponse | null;
+  brightness: BrightnessTemperatureResponse | null;
+};
 
 const cache: Cache = {
   lightning: null,
   weather: null,
   fire: null,
+  brightness: null,
 };
 
 export function useLightning() {
   const { latitude, longitude } = useGeolocation();
-  const [lightning, setLightning] = useState<any>();
+  const [lightning, setLightning] = useState<LightningResponse>();
 
   useEffect(() => {
     const fetchData = async () => {
       if (latitude !== undefined && longitude !== undefined) {
-        const flashes = await weatherService.getLightningFlashes(
+        const res = await weatherService.getLightningFlashes(
           latitude,
           longitude,
         );
 
-        cache.lightning = flashes;
-        setLightning(flashes);
+        cache.lightning = res;
+        setLightning(res);
       }
     };
 
@@ -36,11 +48,11 @@ export function useLightning() {
     } else {
       fetchData();
     }
-  }, [lightning, latitude, longitude]);
+  }, [latitude, longitude]);
 
   const refreshLightning = () => {
     cache.lightning = null;
-    setLightning({});
+    setLightning(undefined);
   };
 
   return { lightning, refreshLightning };
@@ -48,15 +60,15 @@ export function useLightning() {
 
 export function useWeather() {
   const { latitude, longitude } = useGeolocation();
-  const [weather, setWeather] = useState<any>();
+  const [weather, setWeather] = useState<RainfallResponse>();
 
   useEffect(() => {
     const fetchData = async () => {
       if (latitude !== undefined && longitude !== undefined) {
-        const rainfall = await weatherService.getRainfall(latitude, longitude);
+        const res = await weatherService.getRainfall(latitude, longitude);
 
-        cache.weather = rainfall;
-        setWeather(rainfall);
+        cache.weather = res;
+        setWeather(res);
       }
     };
 
@@ -65,7 +77,7 @@ export function useWeather() {
     } else {
       fetchData();
     }
-  }, [weather, latitude, longitude]);
+  }, [latitude, longitude]);
 
   const refreshWeather = () => {
     cache.weather = null;
@@ -77,18 +89,15 @@ export function useWeather() {
 
 export function useFire() {
   const { latitude, longitude } = useGeolocation();
-  const [fire, setFire] = useState<any>();
+  const [fire, setFire] = useState<FireResponse>();
 
   useEffect(() => {
     const fetchData = async () => {
       if (latitude !== undefined && longitude !== undefined) {
-        const hotspots = await weatherService.getFireHotspots(
-          latitude,
-          longitude,
-        );
+        const res = await weatherService.getFireHotspots(latitude, longitude);
 
-        cache.fire = hotspots;
-        setFire(hotspots);
+        cache.fire = res;
+        setFire(res);
       }
     };
 
@@ -97,7 +106,7 @@ export function useFire() {
     } else {
       fetchData();
     }
-  }, [fire, latitude, longitude]);
+  }, [latitude, longitude]);
 
   const refreshFire = () => {
     cache.fire = null;
@@ -105,4 +114,36 @@ export function useFire() {
   };
 
   return { fire, refreshFire };
+}
+
+export function useBrightnessTemperature() {
+  const { latitude, longitude } = useGeolocation();
+  const [brightness, setBrightness] = useState<BrightnessTemperatureResponse>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (latitude !== undefined && longitude !== undefined) {
+        const res = await weatherService.getBrightnessTemperature(
+          latitude,
+          longitude,
+        );
+
+        cache.brightness = res;
+        setBrightness(res);
+      }
+    };
+
+    if (cache.brightness) {
+      setBrightness(cache.brightness);
+    } else {
+      fetchData();
+    }
+  }, [latitude, longitude]);
+
+  const refreshBrightness = () => {
+    cache.brightness = null;
+    setBrightness(undefined);
+  };
+
+  return { brightness, refreshBrightness };
 }

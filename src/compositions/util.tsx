@@ -10,11 +10,18 @@ import {
 } from '../components/CompositionView';
 import { Composition } from '.';
 import { Patch } from '../hooks/usePatch';
+import {
+  BrightnessTemperatureResponse,
+  FireResponse,
+  LightningResponse,
+  RainfallResponse,
+} from '../services/weather';
 
 export type CompositionProps = Pick<CompositionViewProps, 'play' | 'onLoad'> & {
-  weather: any;
-  lightning: any;
-  fire: any;
+  weather?: RainfallResponse;
+  lightning?: LightningResponse;
+  fire?: FireResponse;
+  brightness?: BrightnessTemperatureResponse;
 };
 
 export const ChaosTree = forwardRef<CompositionHandle, CompositionProps>(
@@ -208,7 +215,8 @@ export const Bonfire = forwardRef<CompositionHandle, CompositionProps>(
 
 export const LightningTrees = forwardRef<CompositionHandle, CompositionProps>(
   (props, ref) => {
-    const { sketch, patch: patchSource } = Composition.sources['Lightning Trees'];
+    const { sketch, patch: patchSource } =
+      Composition.sources['Lightning Trees'];
 
     return (
       <CompositionView
