@@ -101,7 +101,11 @@ const thumbnails: ItemInfo[] = [
     name: Composition.Names.LIGHTNING_TREES,
     source: require('../assets/lightning-trees.png'),
   },
-  
+  {
+  id: 13,
+  name: Composition.Names.SNOW_TRAIL,
+  source: require('../assets/snow-trail.png'),
+  },
 ];
 
 function Item({ item, selected, onSelect }: ItemProps): JSX.Element {
