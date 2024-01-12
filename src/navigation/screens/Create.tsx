@@ -2,7 +2,7 @@
  * @format
  */
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import {
   ChaosTree,
@@ -45,6 +45,24 @@ export function Create({ navigation }: CreateProps): JSX.Element {
   const { lightning } = useLightning();
   const { fire } = useFire();
   const { brightness } = useBrightnessTemperature();
+
+  useEffect(() => {
+    if (fire?.count) {
+      setComposition(Composition.Names.BONFIRE); 
+    }
+    else if (brightness && brightness.temp < -50) {
+      setComposition(Composition.Names.CURVES);
+    }
+    else if (weather?.rain && weather.rain['1h'] && weather.rain['1h'] > 5) {
+      setComposition(Composition.Names.LLUVIA);
+    }
+    else if (lightning && lightning.count > 5) {
+      setComposition(Composition.Names.ZIG_ZAG);
+    }
+    else {
+      setComposition(Composition.Names.COLOR_FLOWER);
+    }
+  }, [fire, brightness, weather, lightning]);
 
   const handleSelect = (name: Composition.Names) => {
     setComposition(name);
